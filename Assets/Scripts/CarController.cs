@@ -7,16 +7,23 @@ public class CarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
+    private enum driveTrain {frontWheelDrive, rearWheelDrive}
     
     private float horizontalInput;
     private float verticalInput;
     private float currentBreakForce;
     private bool isBreaking;
     private float currentSteerAngle;
+    private Rigidbody rb;
+    private float speed;
 
+    [SerializeField] private driveTrain driveTrainType;
     [SerializeField] private float motorForce;
+    [SerializeField] private float maxVelocity;
+    [SerializeField] private AnimationCurve motorCurve;
     [SerializeField] private float breakForce;
     [SerializeField] private float maxSteerAngle;
+    [SerializeField] private AnimationCurve steeringCurve;
     
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
@@ -29,14 +36,25 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform backRightWheelTransform;
     
 
+    private void Start()
+    {
+        rb = gameObject.GetComponent<Rigidbody>();
+    }
+    
     private void FixedUpdate()
     {
+        CalcualteSpeed();
         GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
     }
 
+    private void CalcualteSpeed()
+    {
+        speed = rb.velocity.magnitude;
+    }
+    
     private void GetInput()
     {
         horizontalInput = Input.GetAxis(HORIZONTAL);
@@ -46,11 +64,31 @@ public class CarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        // frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        // frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-        backLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        backRightWheelCollider.motorTorque = verticalInput * motorForce;
+        switch(driveTrainType)
+        {
+            case driveTrain.frontWheelDrive:
+                UpdateMotor(frontLeftWheelCollider);
+                UpdateMotor(frontRightWheelCollider);
+                break;  
+            case driveTrain.rearWheelDrive:
+                UpdateMotor(backLeftWheelCollider);
+                UpdateMotor(backRightWheelCollider);
+                break;
+            default:
+                Debug.LogError("A car somehow has no drive train type");
+                break;
+        }
+        
+        
+        
         ApplyBreaking();
+    }
+
+    private void UpdateMotor(WheelCollider wheelCollidor)
+    {
+        if(rb.velocity.magnitude <= maxVelocity)
+            wheelCollidor.motorTorque = verticalInput * motorForce * motorCurve.Evaluate(Mathf.InverseLerp(0f, maxVelocity, speed));
+        else wheelCollidor.motorTorque = 0f;
     }
 
     private void ApplyBreaking()
@@ -65,7 +103,7 @@ public class CarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        currentSteerAngle = maxSteerAngle * horizontalInput;
+        currentSteerAngle = maxSteerAngle * horizontalInput * steeringCurve.Evaluate(Mathf.InverseLerp(0f, maxVelocity, speed));
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
     }
