@@ -152,5 +152,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 1, z: -3.5}
   target: {fileID: 0}
-  translateSpeed: 10
+  translateSpeed: 100
   rotationSpeed: 10
