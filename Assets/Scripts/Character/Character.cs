@@ -11,13 +11,14 @@ public class Character : MonoBehaviour
     [SerializeField] private DriverModelController driverModelController;
     [SerializeField] private Item currentItem;
 
-    private float lastAccelerateStrength;
-    private float lastBrakeStrength;
-    private float lastTurnAmount;
-    private bool lastDriftState;
+    private float lastAccelerateStrength = 0.0f;
+    private float lastBrakeStrength = 0.0f;
+    private float lastTurnAmount = 0.0f;
+    private bool lastDriftState = false;
 
     public void Start()
     {
+        SetVehicle(startingVehicle);
         SetVehicle(startingVehicle);
     }
 
@@ -26,6 +27,9 @@ public class Character : MonoBehaviour
         if (vehicle != null) Destroy(vehicle.gameObject);
 
         gameObject.GetComponent<Rigidbody>().useGravity = false;
+        Vector3 pos = transform.position;
+        pos.y += 0.1f;
+        transform.position = pos;
 
         GameObject spawnedVehicle = Instantiate(newVehicle, this.transform);
         vehicle = spawnedVehicle.GetComponent<Vehicle>();
@@ -34,6 +38,8 @@ public class Character : MonoBehaviour
         Brake(lastBrakeStrength);
         Turn(lastTurnAmount);
         Drift(lastDriftState);
+
+        Debug.Log("" + lastAccelerateStrength + " " + lastBrakeStrength + " " + lastTurnAmount + " " + lastDriftState);
     }
 
     public void Accelerate(float _accelerateStrength)
@@ -69,6 +75,14 @@ public class Character : MonoBehaviour
         { 
             vehicle.TryDrift(_isDrifting);
             lastDriftState = _isDrifting;
+        }
+    }
+
+    public void Boost()
+    {
+        if(vehicle != null)
+        {
+            vehicle.Boost();
         }
     }
 

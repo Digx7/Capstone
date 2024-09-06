@@ -8,6 +8,7 @@ public class Car : Vehicle
     
     private float currentBreakForce;
     private float currentSteerAngle;
+    private bool shouldBoost = false;
     
     [SerializeField] private driveTrain driveTrainType;
     [SerializeField] private float motorForce;
@@ -16,6 +17,7 @@ public class Car : Vehicle
     [SerializeField] private float breakForce;
     [SerializeField] private float maxSteerAngle;
     [SerializeField] private AnimationCurve steeringCurve;
+    [SerializeField] private float BoostForce;
     
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
@@ -82,6 +84,13 @@ public class Car : Vehicle
     public override void Drift()
     {
         Debug.Log("Drift");
+    }
+
+    protected override void ApplyBoost()
+    {
+        Vector3 force = new Vector3(0, 0, BoostForce);
+        rb.AddRelativeForce(force, ForceMode.Impulse);
+        base.ApplyBoost();
     }
 
     private void UpdateWheels()

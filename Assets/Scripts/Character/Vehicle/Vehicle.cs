@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Vehicle : MonoBehaviour
 {
-    private bool shouldDrift;
+    private bool shouldDrift = false;
+    private bool shouldBoost = false;
 
     protected Rigidbody rb;
     protected float speed;
@@ -24,6 +25,7 @@ public class Vehicle : MonoBehaviour
         CalcualteSpeed();
 
         Accelerate(accelerateStrength);
+        if(shouldBoost) ApplyBoost();
         Brake(brakeStrength);
         Turn(turnAmount);
 
@@ -55,6 +57,16 @@ public class Vehicle : MonoBehaviour
         
     }
     
+    public virtual void Boost()
+    {
+        shouldBoost = true;
+    }
+
+    protected virtual void ApplyBoost()
+    {
+        shouldBoost = false;
+    }
+
     public void TryAccelerate(float _accelerateStrength)
     {
         accelerateStrength = _accelerateStrength;

@@ -2034,6 +2034,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  BoostForce: 5000
   frontLeftWheelCollider: {fileID: 2681772861542693}
   frontRightWheelCollider: {fileID: 5412917393766519757}
   backLeftWheelCollider: {fileID: 2904733142750979838}
