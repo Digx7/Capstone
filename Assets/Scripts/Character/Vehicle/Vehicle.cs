@@ -27,7 +27,7 @@ public class Vehicle : MonoBehaviour
         Accelerate(accelerateStrength);
         if(shouldBoost) ApplyBoost();
         Brake(brakeStrength);
-        Turn(turnAmount);
+        if(!shouldDrift) Turn(turnAmount);
 
         if(shouldDrift) Drift();
     }
@@ -54,7 +54,10 @@ public class Vehicle : MonoBehaviour
 
     public virtual void Drift()
     {
-        
+        float driftAmount = turnAmount;
+        driftAmount = driftAmount.Remap(-1, 0, 1, 1);
+        Debug.Log("Trying To Drift | drift: " + driftAmount + " Turn: " + turnAmount);
+        Turn(driftAmount);
     }
     
     public virtual void Boost()

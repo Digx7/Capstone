@@ -148,7 +148,10 @@ MonoBehaviour:
   ID: 0
   vehicle: {fileID: 0}
   driverModelController: {fileID: 0}
-  currentItem: {fileID: 0}
+  allPossibleItemPrefabs:
+  - {fileID: 7721305627895365689, guid: e2758097bc7b991428332864a401ac9b, type: 3}
+  - {fileID: 4488567708477471610, guid: b00c0d18964d61a429c460a9c165a166, type: 3}
+  currentItemPrefab: {fileID: 0}
 --- !u!54 &3951279754245569375
 Rigidbody:
   m_ObjectHideFlags: 0

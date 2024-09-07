@@ -9,7 +9,8 @@ public class Character : MonoBehaviour
     [SerializeField] private int ID;
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private DriverModelController driverModelController;
-    [SerializeField] private Item currentItem;
+    [SerializeField] private List<GameObject> allPossibleItemPrefabs;
+    [SerializeField] private GameObject currentItemPrefab = null;
 
     private float lastAccelerateStrength = 0.0f;
     private float lastBrakeStrength = 0.0f;
@@ -86,9 +87,31 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void GetItem()
+    {
+        if(allPossibleItemPrefabs.Count > 0)
+        {
+            int choice = Random.Range( 0, allPossibleItemPrefabs.Count);
+            currentItemPrefab = allPossibleItemPrefabs[choice];
+            Debug.Log("You Got A " + currentItemPrefab.GetComponent<Item>().name);
+        }
+    }
+
     public void UseItem()
     {
-        Debug.Log("UseItem");
+        if (currentItemPrefab != null)
+        {
+            Debug.Log("UseItem");
+
+            Vector3 pos = transform.position;
+            pos.z += 1.0f;
+            Quaternion rot = transform.rotation;
+
+            GameObject spawnedItem = Instantiate(currentItemPrefab, pos, rot);
+            spawnedItem.GetComponent<Item>().Use();
+
+            currentItemPrefab = null;
+        }
     }
 
     public bool IsValidCharacter()

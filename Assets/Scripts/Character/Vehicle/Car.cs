@@ -8,7 +8,6 @@ public class Car : Vehicle
     
     private float currentBreakForce;
     private float currentSteerAngle;
-    private bool shouldBoost = false;
     
     [SerializeField] private driveTrain driveTrainType;
     [SerializeField] private float motorForce;
@@ -83,6 +82,7 @@ public class Car : Vehicle
 
     public override void Drift()
     {
+        base.Drift();
         Debug.Log("Drift");
     }
 
