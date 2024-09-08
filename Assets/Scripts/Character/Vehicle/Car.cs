@@ -18,6 +18,7 @@ public class Car : Vehicle
     [SerializeField] private AnimationCurve steeringCurve;
     [SerializeField] private float BoostForce;
     
+    [SerializeField] private GameObject visual;
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider backLeftWheelCollider;
@@ -27,6 +28,10 @@ public class Car : Vehicle
     [SerializeField] private Transform frontRightWheelTransform;
     [SerializeField] private Transform backLeftWheelTransform;
     [SerializeField] private Transform backRightWheelTransform;
+
+    [SerializeField] private List<ParticleSystem> driftParticleSystems;
+
+    [SerializeField] private List<Color> driftLevelColors;
     
     
     public override void FixedUpdate()
@@ -35,6 +40,14 @@ public class Car : Vehicle
         UpdateWheels();
     }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        OnStartChargeBoost.AddListener(DisplayDriftParticles);
+        OnChargeBoostLevelChanged.AddListener(ChangeDriftParticleLevel);
+    }
+    
     public override void Accelerate(float accelerateStrength)
     {
         
@@ -63,6 +76,8 @@ public class Car : Vehicle
 
     public override void Brake(float brakeStrength)
     {
+        base.Brake(brakeStrength);
+
 
         currentBreakForce = brakeStrength * breakForce;
 
@@ -70,6 +85,25 @@ public class Car : Vehicle
         frontRightWheelCollider.brakeTorque = currentBreakForce;
         backLeftWheelCollider.brakeTorque = currentBreakForce;
         backRightWheelCollider.brakeTorque = currentBreakForce;
+    }
+
+    public override void Reverse(float reverseStrength)
+    {
+        base.Reverse(reverseStrength);
+        switch(driveTrainType)
+        {
+            case driveTrain.frontWheelDrive:
+                UpdateMotor(frontLeftWheelCollider, -reverseStrength);
+                UpdateMotor(frontRightWheelCollider, -reverseStrength);
+                break;  
+            case driveTrain.rearWheelDrive:
+                UpdateMotor(backLeftWheelCollider, -reverseStrength);
+                UpdateMotor(backRightWheelCollider, -reverseStrength);
+                break;
+            default:
+                Debug.LogError("A car somehow has no drive train type");
+                break;
+        }
     }
 
     public override void Turn(float turnAmount)
@@ -83,12 +117,35 @@ public class Car : Vehicle
     public override void Drift()
     {
         base.Drift();
-        Debug.Log("Drift");
+        // Debug.Log("Drift");
+    }
+
+    protected override void StartDrifting()
+    {
+        base.StartDrifting();
+        Vector3 currentEulerAngles = new Vector3();
+
+        if(driftDirection == DriftDirection.Right)
+        {
+            currentEulerAngles.y = 90 + 15;
+            visual.transform.localEulerAngles = currentEulerAngles;
+        }
+        else
+        {
+            currentEulerAngles.y = 90 - 15;
+            visual.transform.localEulerAngles = currentEulerAngles;
+        }
+    }
+
+    protected override void StopDrifting()
+    {
+        base.StopDrifting();
+        visual.transform.localEulerAngles = new Vector3(0,90,0);
     }
 
     protected override void ApplyBoost()
     {
-        Vector3 force = new Vector3(0, 0, BoostForce);
+        Vector3 force = new Vector3(0, 0, BoostForce * boostLevel);
         rb.AddRelativeForce(force, ForceMode.Impulse);
         base.ApplyBoost();
     }
@@ -97,8 +154,11 @@ public class Car : Vehicle
     {
         UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
         UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
-        UpdateSingleWheel(backLeftWheelCollider, backLeftWheelTransform);
-        UpdateSingleWheel(backRightWheelCollider, backRightWheelTransform);
+        if(!shouldDrift)
+        {
+            UpdateSingleWheel(backLeftWheelCollider, backLeftWheelTransform);
+            UpdateSingleWheel(backRightWheelCollider, backRightWheelTransform);
+        }
     }
 
     private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
@@ -107,6 +167,40 @@ public class Car : Vehicle
         Quaternion rot;
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
-        wheelTransform.position = pos;
+        // wheelTransform.position = pos;
+    }
+
+    private void DisplayDriftParticles(bool state)
+    {
+        if(state)
+        {
+            foreach (ParticleSystem particleSystem in driftParticleSystems)
+            {
+                particleSystem.Play();
+            }
+        }
+        else
+        {
+            foreach (ParticleSystem particleSystem in driftParticleSystems)
+            {
+                particleSystem.Stop();
+            }
+        }
+        
+
+        Debug.Log("Drift Particle State = " + state);
+    }
+
+    private void ChangeDriftParticleLevel(int level)
+    {
+        if(level >= driftLevelColors.Count) return;
+        
+        foreach (ParticleSystem particleSystem in driftParticleSystems)
+        {
+            var main = particleSystem.main;
+            main.startColor = driftLevelColors[level];
+        }
+
+        
     }
 }
