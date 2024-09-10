@@ -91,7 +91,7 @@ public class Vehicle : MonoBehaviour
             isIdle = false;
         }
 
-        Debug.Log("Speed: " + speed + " IdleTimerIsGoing: " + idleTimerIsGoing + " IsIdle: " + isIdle);
+        // Debug.Log("Speed: " + speed + " IdleTimerIsGoing: " + idleTimerIsGoing + " IsIdle: " + isIdle);
     }
 
     private IEnumerator IdleWaitTimer()

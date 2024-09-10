@@ -7,3 +7,4 @@ public class GlobalEnums
 }
 
 public enum DriftDirection {Left, Right, Neither};
+public enum SplitScreenMode {OnePlayer, TwoPlayer, ThreePlayer, FourPlayer};
