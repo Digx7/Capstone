@@ -9,6 +9,8 @@ public class Vehicle : MonoBehaviour
     public UnityEvent OnBoost;
     public UnityEvent<int> OnChargeBoostLevelChanged;
     public UnityEvent<bool> OnStartChargeBoost;
+    public UnityEvent OnStartReversing;
+    public UnityEvent OnStopReversing;
     
     protected DriftDirection driftDirection;
     
@@ -78,6 +80,7 @@ public class Vehicle : MonoBehaviour
         if(speed < 0.1 && brakeStrength > 0.1)
         {
             isReversing = true;
+            OnStartReversing.Invoke();
             return;
         }
     }
@@ -142,7 +145,11 @@ public class Vehicle : MonoBehaviour
     public void TryAccelerate(float _accelerateStrength)
     {
         accelerateStrength = _accelerateStrength;
-        if(accelerateStrength > 0.1) isReversing = false;
+        if(accelerateStrength > 0.1) 
+        {
+            isReversing = false;
+            OnStopReversing.Invoke();
+        }
     }
 
     public void TryBrake(float _brakeStrength)

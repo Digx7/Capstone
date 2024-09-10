@@ -6,15 +6,15 @@ using Cinemachine;
 
 public class BoostPolishTester : MonoBehaviour
 {
-    public CinemachineVirtualCamera cinemachineVirtualCamera;
+    // public CinemachineVirtualCamera cinemachineVirtualCamera;
     public Volume boostVolume;
 
 
     public float animDuration;
     public float animActiveTimeStamp;
     public float animCooldownTimeStamp;
-    public float fovStartingValue;
-    public float fovActiveValue;
+    // public float fovStartingValue;
+    // public float fovActiveValue;
     public float weightStartingValue;
     public float weightActiveValue;
     public AnimationCurve easeIn;
@@ -38,16 +38,16 @@ public class BoostPolishTester : MonoBehaviour
         {
             currentTime += Time.deltaTime;
 
-            float fov = fovStartingValue;
+            // float fov = fovStartingValue;
             float weight = weightStartingValue;
 
-            float fovDif = fovActiveValue - fovStartingValue;
+            // float fovDif = fovActiveValue - fovStartingValue;
             float weightDif = weightActiveValue - weightStartingValue;
 
             if(currentTime < animActiveTimeStamp)
             {
                 // Startup
-                fov = fovStartingValue + (fovDif * easeIn.Evaluate(Mathf.InverseLerp(0f, animActiveTimeStamp, currentTime)));
+                // fov = fovStartingValue + (fovDif * easeIn.Evaluate(Mathf.InverseLerp(0f, animActiveTimeStamp, currentTime)));
                 weight = weightStartingValue + (weightDif * easeIn.Evaluate(Mathf.InverseLerp(0f, animActiveTimeStamp, currentTime)));
 
 
@@ -55,17 +55,17 @@ public class BoostPolishTester : MonoBehaviour
             else if(currentTime < animCooldownTimeStamp)
             {
                 // Active
-                fov = fovActiveValue;
+                // fov = fovActiveValue;
                 weight = weightActiveValue;
             }
             else if(currentTime < animDuration)
             {
                 // Cooldown
-                fov = fovStartingValue + (fovDif * easeOut.Evaluate(Mathf.InverseLerp(animCooldownTimeStamp, animDuration, currentTime)));
+                // fov = fovStartingValue + (fovDif * easeOut.Evaluate(Mathf.InverseLerp(animCooldownTimeStamp, animDuration, currentTime)));
                 weight = weightStartingValue + (weightDif * easeOut.Evaluate(Mathf.InverseLerp(animCooldownTimeStamp, animDuration, currentTime)));
             }
 
-            cinemachineVirtualCamera.m_Lens.FieldOfView = fov;
+            // cinemachineVirtualCamera.m_Lens.FieldOfView = fov;
             boostVolume.weight = weight;
 
             if(currentTime < animDuration)

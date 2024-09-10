@@ -15,7 +15,11 @@ public class Character : MonoBehaviour
     [SerializeField] private List<GameObject> allPossibleItemPrefabs;
     [SerializeField] private GameObject currentItemPrefab = null;
 
-    public UnityEvent OnBoost;
+    public UnityEvent OnBoostStarted;
+    public UnityEvent OnBoostFinished;
+
+    public UnityEvent OnStartReverse;
+    public UnityEvent OnStopReverse;
 
     private float lastAccelerateStrength = 0.0f;
     private float lastBrakeStrength = 0.0f;
@@ -48,6 +52,9 @@ public class Character : MonoBehaviour
         Brake(lastBrakeStrength);
         Turn(lastTurnAmount);
         vehicle.TryDriftInDirection(lastDriftState,lastDriftDirection);
+
+        vehicle.OnStartReversing.AddListener(StartReversing);
+        vehicle.OnStopReversing.AddListener(StopReversing);
     }
 
     public void Accelerate(float _accelerateStrength)
@@ -57,6 +64,16 @@ public class Character : MonoBehaviour
             vehicle.TryAccelerate(_accelerateStrength);
             lastAccelerateStrength = _accelerateStrength;
         }
+    }
+
+    private void StartReversing()
+    {
+        OnStartReverse.Invoke();
+    }
+
+    private void StopReversing()
+    {
+        OnStopReverse.Invoke();
     }
 
     public void Brake(float _brakeStrength)
@@ -155,8 +172,15 @@ public class Character : MonoBehaviour
         if(vehicle != null)
         {
             vehicle.Boost(level);
-            OnBoost.Invoke();
+            OnBoostStarted.Invoke();
+            StartCoroutine(BoostTimer());
         }
+    }
+
+    private IEnumerator BoostTimer()
+    {
+        yield return new WaitForSeconds(1.0f);
+        OnBoostFinished.Invoke();
     }
 
     public void GetItem()
