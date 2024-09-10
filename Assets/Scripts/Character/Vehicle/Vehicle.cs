@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Vehicle : MonoBehaviour
 {
     
+    public UnityEvent OnIdle;
     public UnityEvent OnBoost;
     public UnityEvent<int> OnChargeBoostLevelChanged;
     public UnityEvent<bool> OnStartChargeBoost;
@@ -25,6 +26,8 @@ public class Vehicle : MonoBehaviour
     private float accelerateStrength;
     private float brakeStrength;
     private float turnAmount;
+    private bool idleTimerIsGoing = false;
+    private bool isIdle = false;
 
     public virtual void Initialize()
     {
@@ -68,6 +71,38 @@ public class Vehicle : MonoBehaviour
     private void CalcualteSpeed()
     {
         speed = rb.velocity.magnitude;
+
+        if(!isIdle)
+        {
+            if(!idleTimerIsGoing)
+            {
+                if(speed < 0.1) StartCoroutine("IdleWaitTimer");
+            }
+            else if(speed > 0.1)
+            {
+                Debug.Log("Stopting Idle Timer");
+                StopCoroutine("IdleWaitTimer");
+                idleTimerIsGoing = false;
+                isIdle = false;
+            }
+        }
+        else if(speed > 0.1)
+        {
+            isIdle = false;
+        }
+
+        Debug.Log("Speed: " + speed + " IdleTimerIsGoing: " + idleTimerIsGoing + " IsIdle: " + isIdle);
+    }
+
+    private IEnumerator IdleWaitTimer()
+    {
+        Debug.Log("IdleWaitTimer Started");
+        idleTimerIsGoing = true;
+        yield return new WaitForSeconds(1);
+        idleTimerIsGoing = false;
+        Debug.Log("OnIdle.Invoke");
+        OnIdle.Invoke();
+        isIdle = true;
     }
 
     public virtual void Accelerate(float accelerateStrength)
@@ -87,7 +122,7 @@ public class Vehicle : MonoBehaviour
 
     public virtual void Reverse(float reverseStrength)
     {
-        Debug.Log("Reverse");
+        // Debug.Log("Reverse");
         isReversing = true;
     }
 

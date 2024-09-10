@@ -15,11 +15,14 @@ public class Character : MonoBehaviour
     [SerializeField] private List<GameObject> allPossibleItemPrefabs;
     [SerializeField] private GameObject currentItemPrefab = null;
 
-    public UnityEvent OnBoostStarted;
-    public UnityEvent OnBoostFinished;
-
-    public UnityEvent OnStartReverse;
-    public UnityEvent OnStopReverse;
+    public UnityEvent OnIdle;
+    public UnityEvent OnDrive;
+    public UnityEvent OnReverse;
+    public UnityEvent OnBoost;
+    public UnityEvent OnDrift;
+    public UnityEvent OnWin;
+    public UnityEvent OnGetItem;
+    public UnityEvent OnUseItem;
 
     private float lastAccelerateStrength = 0.0f;
     private float lastBrakeStrength = 0.0f;
@@ -55,6 +58,13 @@ public class Character : MonoBehaviour
 
         vehicle.OnStartReversing.AddListener(StartReversing);
         vehicle.OnStopReversing.AddListener(StopReversing);
+        vehicle.OnIdle.AddListener(Idle);
+
+    }
+
+    private void Idle()
+    {
+        OnIdle.Invoke();
     }
 
     public void Accelerate(float _accelerateStrength)
@@ -63,17 +73,18 @@ public class Character : MonoBehaviour
         { 
             vehicle.TryAccelerate(_accelerateStrength);
             lastAccelerateStrength = _accelerateStrength;
+            OnDrive.Invoke();
         }
     }
 
     private void StartReversing()
     {
-        OnStartReverse.Invoke();
+        OnReverse.Invoke();
     }
 
     private void StopReversing()
     {
-        OnStopReverse.Invoke();
+        
     }
 
     public void Brake(float _brakeStrength)
@@ -120,6 +131,7 @@ public class Character : MonoBehaviour
     private void StartDrift()
     {
         Debug.Log("Start Drifting");
+        OnDrift.Invoke();
         StartCoroutine(ChargeDrift());
     }
 
@@ -172,15 +184,8 @@ public class Character : MonoBehaviour
         if(vehicle != null)
         {
             vehicle.Boost(level);
-            OnBoostStarted.Invoke();
-            StartCoroutine(BoostTimer());
+            OnBoost.Invoke();
         }
-    }
-
-    private IEnumerator BoostTimer()
-    {
-        yield return new WaitForSeconds(1.0f);
-        OnBoostFinished.Invoke();
     }
 
     public void GetItem()
@@ -189,7 +194,7 @@ public class Character : MonoBehaviour
         {
             int choice = Random.Range( 0, allPossibleItemPrefabs.Count);
             currentItemPrefab = allPossibleItemPrefabs[choice];
-            Debug.Log("You Got A " + currentItemPrefab.GetComponent<Item>().name);
+            OnGetItem.Invoke();
         }
     }
 
@@ -207,6 +212,7 @@ public class Character : MonoBehaviour
             spawnedItem.GetComponent<Item>().Use();
 
             currentItemPrefab = null;
+            OnUseItem.Invoke();
         }
     }
 
