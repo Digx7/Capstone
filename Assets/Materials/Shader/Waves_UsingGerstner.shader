@@ -3,11 +3,17 @@ Shader "Custom/Waves_UsingGerstner"
     Properties
     {
         _BaseMap("Base Map", 2D) = "white" {}
-        _Color("Color", Color) = (1,1,1,1)
-        _WaveA ("Wave A (dir, steepness, wavelength)", Vector) = (1,0,0.5, 10)
+        _CrestColor("Crest Color", Color) = (1,1,1,1)
+        _PeakColor("Peak Color", Color) = (1,1,1,1)
+        _MiddleColor("Middle Color", Color) = (1,1,1,1)
+        _TroughtColor("Trought Color", Color) = (0,0,0,1)
+        _ColorRange("Color Range (Crest, Peak, Middle)", Vector) = (0.8, 0.5, -0.5, 0)
+        _WaveA ("Wave A (dir, steepness, wavelength)", Vector) = (1,0,0.5,10)
         _WaveB ("Wave B", Vector) = (0,1,0.25,20)
         _WaveC ("Wave C", Vector) = (0,1,0.25,20)
     }
+
+    // chang
 
     SubShader
     {
@@ -39,13 +45,16 @@ Shader "Custom/Waves_UsingGerstner"
                 float4 normalCS    : NORMAL;
                 float4 shadowCoords : TEXCOORD3;
                 float2 uv: TEXCOORD0;
+                float4 color: MYSEMANIC;
             };
+            // change
 
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap);
 
             CBUFFER_START(UnityPerMaterial)
-            float4 _Color;
+            float4 _CrestColor, _PeakColor, _MiddleColor,_TroughtColor;
+            float4 _ColorRange;
             float4 _BaseMap_ST;
             float4 _WaveA, _WaveB, _WaveC;
             CBUFFER_END
@@ -94,6 +103,14 @@ Shader "Custom/Waves_UsingGerstner"
                 IN.positionOS.xyz = position;
                 IN.normalOS.xyz = normal;
 
+                float4 waveColor;
+                if(position.y >= _ColorRange.x) waveColor = _CrestColor;
+                else if(position.y < _ColorRange.x && position.y >= _ColorRange.y) waveColor = _PeakColor;
+                else if(position.y < _ColorRange.y && position.y >= _ColorRange.z) waveColor = _MiddleColor;
+                else waveColor = _TroughtColor;
+
+                OUT.color = waveColor;
+
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.normalCS = IN.normalOS;
 
@@ -126,7 +143,13 @@ Shader "Custom/Waves_UsingGerstner"
                 // return shadowAmount;
                 
                 float4 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
-                float4 trueColor = _Color * shadowAmount;
+                // float4 trueColor = _Color * shadowAmount;
+
+                float height = IN.positionCS.y;
+                float4 color = IN.color;
+
+                float4 trueColor = color * shadowAmount;
+
                 return texel * trueColor;
             }
             ENDHLSL

@@ -118,12 +118,17 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0.24671888, b: 1, a: 1}
+    - _ColorRange: {r: 2.37, g: 0.7, b: -1.638, a: 0}
+    - _CrestColor: {r: 1, g: 1, b: 1, a: 1}
     - _Direction: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MiddleColor: {r: 0, g: 0.609201, b: 0.85882354, a: 1}
+    - _PeakColor: {r: 0.124955505, g: 0.7383391, b: 0.9811321, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WaveA: {r: 1, g: 0, b: 0.2, a: 300}
-    - _WaveB: {r: 1, g: 1, b: 0.5, a: 200}
-    - _WaveC: {r: 1, g: 0, b: 0.25, a: 10}
+    - _TroughtColor: {r: 0.035294127, g: 0.51438624, b: 0.6901961, a: 1}
+    - _WaveA: {r: 1, g: 0, b: 0.29, a: 10}
+    - _WaveB: {r: 1, g: -0.47, b: 0.3, a: 5}
+    - _WaveC: {r: 1, g: -1.37, b: 0.2, a: 2}
   m_BuildTextureStacks: []
 --- !u!114 &1438461349683107721
 MonoBehaviour:
