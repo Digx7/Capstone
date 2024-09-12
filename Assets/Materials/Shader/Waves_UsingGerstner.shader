@@ -8,9 +8,6 @@ Shader "Custom/Waves_UsingGerstner"
         _MiddleColor("Middle Color", Color) = (1,1,1,1)
         _TroughtColor("Trought Color", Color) = (0,0,0,1)
         _ColorRange("Color Range (Crest, Peak, Middle)", Vector) = (0.8, 0.5, -0.5, 0)
-        _WaveA ("Wave A (dir, steepness, wavelength)", Vector) = (1,0,0.5,10)
-        _WaveB ("Wave B", Vector) = (0,1,0.25,20)
-        _WaveC ("Wave C", Vector) = (0,1,0.25,20)
     }
 
     // chang
@@ -31,6 +28,12 @@ Shader "Custom/Waves_UsingGerstner"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             #define PI       3.14159
+
+            float4 _WaveA;
+            float4 _WaveB;
+            float4 _WaveC;
+            float _TimeStamp;
+
 
             struct Attributes
             {
@@ -56,7 +59,6 @@ Shader "Custom/Waves_UsingGerstner"
             float4 _CrestColor, _PeakColor, _MiddleColor,_TroughtColor;
             float4 _ColorRange;
             float4 _BaseMap_ST;
-            float4 _WaveA, _WaveB, _WaveC;
             CBUFFER_END
 
             float3 GerstnerWave (float4 wave, float3 position, inout float3 tangent, inout float3 binormal)
@@ -66,7 +68,7 @@ Shader "Custom/Waves_UsingGerstner"
                 float k = 2 * PI / wavelength;
                 float c = sqrt(9.8 / k);
                 float2 d = normalize(wave.xy);
-                float f = k * (dot(d, position.xz) - c * _Time.y);
+                float f = k * (dot(d, position.xz) - c * _TimeStamp);
                 float a = steepness / k;
 
                 tangent += float3(
@@ -91,7 +93,7 @@ Shader "Custom/Waves_UsingGerstner"
                 Varyings OUT;
 
                 // Modify Verticies =====
-                float3 gridPoint = IN.positionOS.xyz;
+                float3 gridPoint = TransformObjectToWorld(IN.positionOS.xyz);
                 float3 tangent = float3(1, 0, 0);
                 float3 binormal = float3(0, 0, 1);
                 float3 position = gridPoint;
@@ -111,8 +113,9 @@ Shader "Custom/Waves_UsingGerstner"
 
                 OUT.color = waveColor;
 
-                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
-                OUT.normalCS = IN.normalOS;
+                // OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionCS = TransformWorldToHClip(IN.positionOS.xyz);
+                OUT.normalCS = TransformWorldToHClip(IN.normalOS);
 
                 // END Modify Vertices ======
 
