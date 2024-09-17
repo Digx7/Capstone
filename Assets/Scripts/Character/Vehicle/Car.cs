@@ -43,6 +43,8 @@ public class Car : Vehicle
     public override void Initialize()
     {
         base.Initialize();
+        rb.mass = 1500;
+        rb.drag = 0f;
 
         OnStartChargeBoost.AddListener(DisplayDriftParticles);
         OnChargeBoostLevelChanged.AddListener(ChangeDriftParticleLevel);
@@ -200,7 +202,5 @@ public class Car : Vehicle
             var main = particleSystem.main;
             main.startColor = driftLevelColors[level];
         }
-
-        
     }
 }

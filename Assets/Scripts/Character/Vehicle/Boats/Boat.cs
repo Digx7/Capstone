@@ -4,23 +4,147 @@ using UnityEngine;
 
 public class Boat : Vehicle
 {
+    [SerializeField] private float maxVelocity;
+    [SerializeField] private float motorForce;
+    [SerializeField] private AnimationCurve motorForceCurve;
+    [SerializeField] private float reverseForce;
+    [SerializeField] private AnimationCurve reverseForceCurve;
+    [SerializeField] private float breakForce;
+    [SerializeField] private AnimationCurve breakForceCurve;
+    [SerializeField] private float steeringTorque;
+    [SerializeField] private AnimationCurve steeringTorqueCurve;
+    [SerializeField] private float BoostForce;
+    [SerializeField] private Vector2 acceptableRollAngle;
+    [SerializeField] private Vector2 acceptablePitchAngle;
+
+    private bool isSubmerged = false;
+    public void SetSubmerged(bool value) => isSubmerged = value;
+
+
+    // References
+    [SerializeField] private GameObject visual;
+    [SerializeField] private List<Floater> floaters;
+    
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        KeepUp();
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        rb.useGravity = false;
+        rb.mass = 10;
+        rb.drag = 0.5f;
+
+        foreach (Floater floater in floaters)
+        {
+            floater.rigidbody = rb;
+        }
+    }
+    
     public override void Accelerate(float accelerateStrength)
     {
-        Debug.Log("Vroom");
+        if(!isSubmerged) return;
+        
+        Vector3 force = new Vector3(0,0,1);
+
+        // force = force * accelerateStrength * motorForce * motorForceCurve.Evaluate(Mathf.InverseLerp(0f, maxVelocity, speed));
+        force = force * accelerateStrength * motorForce;
+
+        rb.AddRelativeForce(force);
     }
 
     public override void Brake(float brakeStrength)
     {
+        if(!isSubmerged) return;
+
+        base.Brake(brakeStrength);
+
+        Vector3 force = new Vector3(0,0,-1);
+
+        // force = force * brakeStrength * breakForce * breakForceCurve.Evaluate(Mathf.InverseLerp(maxVelocity, 0f, speed));
+        force = force * brakeStrength * breakForce;
+
+        rb.AddRelativeForce(force);
+    }
+
+    public override void Reverse(float reverseStrength)
+    {
+        if(!isSubmerged) return;
         
+        Vector3 force = new Vector3(0,0,-1);
+
+        // force = force * reverseStrength * reverseForce * reverseForceCurve.Evaluate(Mathf.InverseLerp(0f, maxVelocity, speed));
+        force = force * reverseStrength * reverseForce;
+
+        rb.AddRelativeForce(force);
     }
 
     public override void Turn(float turnAmount)
     {
+        if(!isSubmerged) return;
         
+        Vector3 torque = new Vector3(0,1,0);
+
+        // torque = torque * steeringTorque * turnAmount * steeringTorqueCurve.Evaluate(Mathf.InverseLerp(0f, maxVelocity, speed));
+        torque = torque * steeringTorque * turnAmount;
+
+        rb.AddRelativeTorque(torque);
     }
 
     public override void Drift()
     {
+        if(!isSubmerged) return;
         
+        base.Drift();
+    }
+
+    protected override void StartDrifting()
+    {
+        if(!isSubmerged) return;
+        
+        base.StartDrifting();
+        Vector3 currentEulerAngles = new Vector3();
+
+        if(driftDirection == DriftDirection.Right)
+        {
+            currentEulerAngles.y = 180 + 15;
+            visual.transform.localEulerAngles = currentEulerAngles;
+        }
+        else
+        {
+            currentEulerAngles.y = 180 - 15;
+            visual.transform.localEulerAngles = currentEulerAngles;
+        }
+    }
+
+    protected override void StopDrifting()
+    {
+        base.StopDrifting();
+        visual.transform.localEulerAngles = new Vector3(0,180,0);
+    }
+
+    protected override void ApplyBoost()
+    {
+        Vector3 force = new Vector3(0, 0, BoostForce * boostLevel);
+        rb.AddRelativeForce(force, ForceMode.Impulse);
+        base.ApplyBoost();
+    }
+
+    private void KeepUp()
+    {
+        Vector3 _localEulerAngle = transform.localEulerAngles;
+
+        if(_localEulerAngle.z <= acceptableRollAngle.x) _localEulerAngle.z = acceptableRollAngle.x;
+        else if(_localEulerAngle.z >= acceptableRollAngle.y) _localEulerAngle.z = acceptableRollAngle.y;
+
+        if(_localEulerAngle.x <= acceptablePitchAngle.x) _localEulerAngle.x = acceptablePitchAngle.x;
+        else if(_localEulerAngle.x >= acceptablePitchAngle.y) _localEulerAngle.x = acceptablePitchAngle.y;
+
+        transform.localEulerAngles = _localEulerAngle;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class WaveManager : MonoBehaviour
+public class WaveManager : GenericSingleton<WaveManager>
 {
     public Wave waveAdata;
     public Wave waveBdata;

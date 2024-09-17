@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.Events;
 public class Vehicle : MonoBehaviour
 {
     
+    // Events
     public UnityEvent OnIdle;
     public UnityEvent OnBoost;
     public UnityEvent<int> OnChargeBoostLevelChanged;
@@ -13,26 +15,54 @@ public class Vehicle : MonoBehaviour
     public UnityEvent OnStartReversing;
     public UnityEvent OnStopReversing;
     
-    protected DriftDirection driftDirection;
-    
+
+
+    // References
+    private Rigidbody _rb;
+    protected Rigidbody rb
+    {
+        get
+        {
+            if(_rb == null) 
+            {
+                ErrorNullRigidbody();
+                return null;
+            }
+            return _rb;
+        }
+        set => _rb = value;
+    }
+
+
+
+    // Vehicle State Variables
     protected bool shouldDrift = false;
     protected bool shouldBoost = false;
     protected int boostLevel = 1;
     protected bool isReversing = false;
-
-    protected Rigidbody rb;
-    protected float speed;
-
-    private float accelerateStrength;
-    private float brakeStrength;
-    private float turnAmount;
+    protected float speed;  // the vehicles current speed, calculated every frame
+    protected DriftDirection driftDirection;  // the current direction the vehicle is drifting
     private bool idleTimerIsGoing = false;
     private bool isIdle = false;
 
+    // Affected by controller input then passed to Vehicle type
+    private float accelerateStrength;
+    private float brakeStrength;
+    private float turnAmount;
+
     public virtual void Initialize()
     {
-        rb = gameObject.GetComponentInParent<Rigidbody>();
-        rb.useGravity = true;
+        
+        if(transform.parent.gameObject.TryGetComponent<Rigidbody>(out _rb))
+        {
+            rb.useGravity = true; 
+        }
+        else
+        {
+            ErrorNullRigidbody();
+        }
+        
+        
     }
 
     public virtual void Telemetry()
@@ -70,6 +100,12 @@ public class Vehicle : MonoBehaviour
 
     private void CalcualteSpeed()
     {
+        if(rb == null)
+        {
+            ErrorNullRigidbody();
+            return;
+        }
+
         speed = rb.velocity.magnitude;
 
         if(!isIdle)
@@ -236,4 +272,10 @@ public class Vehicle : MonoBehaviour
         driftDirection = direction;
         StartDrifting();
     }
+
+    protected virtual void ErrorNullRigidbody()
+    {
+        Debug.Log("A vehicle has no reference to a rigidbody component.\nAdd the Rigidbody to its parent.\nDeleting Vehicle.");
+        Destroy(gameObject);
+    } 
 }
