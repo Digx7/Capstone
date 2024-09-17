@@ -6799,6 +6799,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180dcc64d33fcde4682e01978419eb1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnIdle:
+    m_PersistentCalls:
+      m_Calls: []
   OnBoost:
     m_PersistentCalls:
       m_Calls: []
@@ -6808,6 +6811,13 @@ MonoBehaviour:
   OnStartChargeBoost:
     m_PersistentCalls:
       m_Calls: []
+  OnStartReversing:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStopReversing:
+    m_PersistentCalls:
+      m_Calls: []
+  mass: 1500
   driveTrainType: 0
   motorForce: 1000
   maxVelocity: 30

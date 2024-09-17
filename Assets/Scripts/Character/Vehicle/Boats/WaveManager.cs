@@ -44,7 +44,8 @@ public class WaveManager : GenericSingleton<WaveManager>
         //this is needed to keep the wave calulations for height made by this script 
         //and the rendering in synce 
 
-        time += Time.deltaTime;
+        // time += Time.deltaTime;
+        time = Time.time;
         Shader.SetGlobalFloat("_TimeStamp", time);
     }
 

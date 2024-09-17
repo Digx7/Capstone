@@ -29,7 +29,7 @@ public class Boat : Vehicle
     {
         base.FixedUpdate();
 
-        KeepUp();
+        // KeepUp();
     }
 
     public override void Initialize()
@@ -37,7 +37,7 @@ public class Boat : Vehicle
         base.Initialize();
 
         rb.useGravity = false;
-        rb.mass = 10;
+        rb.mass = mass;
         rb.drag = 0.5f;
 
         foreach (Floater floater in floaters)
@@ -137,14 +137,14 @@ public class Boat : Vehicle
 
     private void KeepUp()
     {
-        Vector3 _localEulerAngle = transform.localEulerAngles;
+        Vector3 boatEularAngles = transform.parent.localRotation.eulerAngles;
 
-        if(_localEulerAngle.z <= acceptableRollAngle.x) _localEulerAngle.z = acceptableRollAngle.x;
-        else if(_localEulerAngle.z >= acceptableRollAngle.y) _localEulerAngle.z = acceptableRollAngle.y;
+        boatEularAngles.z = (boatEularAngles.z > 180) ? boatEularAngles.z - 360 : boatEularAngles.z;
+        boatEularAngles.z = Mathf.Clamp(boatEularAngles.z, acceptableRollAngle.x, acceptableRollAngle.x);
 
-        if(_localEulerAngle.x <= acceptablePitchAngle.x) _localEulerAngle.x = acceptablePitchAngle.x;
-        else if(_localEulerAngle.x >= acceptablePitchAngle.y) _localEulerAngle.x = acceptablePitchAngle.y;
+        boatEularAngles.x = (boatEularAngles.x > 180) ? boatEularAngles.x - 360 : boatEularAngles.x;
+        boatEularAngles.x = Mathf.Clamp(boatEularAngles.x, acceptablePitchAngle.x, acceptablePitchAngle.x);
 
-        transform.localEulerAngles = _localEulerAngle;
+        transform.parent.localRotation = Quaternion.Euler(boatEularAngles);
     }
 }

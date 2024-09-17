@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 8119525508557687640}
   - component: {fileID: 7780275125043684410}
   - component: {fileID: 3825913506422468393}
-  - component: {fileID: 6372282631536232369}
+  - component: {fileID: 1259760213829300449}
   m_Layer: 0
   m_Name: Rear VC_2
   m_TagString: Untagged
@@ -339,13 +339,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TrackerSettings:
-    BindingMode: 3
-    PositionDamping: {x: 0, y: 0.5, z: 0}
+    BindingMode: 2
+    PositionDamping: {x: 0, y: 0.25, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 1, z: -4}
---- !u!114 &6372282631536232369
+  FollowOffset: {x: 0, y: 1.5, z: -4}
+--- !u!114 &1259760213829300449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -354,10 +354,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 2671623915155000858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4afa82ae3200b82408d605c3dbdd1e38, type: 3}
+  m_Script: {fileID: 11500000, guid: f38bda98361e1de48a4ca2bd86ea3c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: 0.15
+  Composition:
+    ScreenPosition: {x: 0, y: 0.14}
+    DeadZone:
+      Enabled: 1
+      Size: {x: 0, y: 0.31}
+    HardLimits:
+      Enabled: 1
+      Size: {x: 0.8, y: 1.26}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 0.5, y: 0.5}
+  Lookahead:
+    Enabled: 1
+    Time: 0.324
+    Smoothing: 1.5
+    IgnoreY: 1
 --- !u!1 &3597413136646880824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1765,7 +1781,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 1, z: -4}
+  FollowOffset: {x: 0, y: 1.5, z: -4}
 --- !u!114 &2010364957954494300
 MonoBehaviour:
   m_ObjectHideFlags: 0

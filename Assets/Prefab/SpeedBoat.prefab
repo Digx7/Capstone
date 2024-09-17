@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 1021755349414808604}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 0.225, z: -4.57}
+  m_LocalPosition: {x: 1, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -729,8 +729,8 @@ Transform:
   m_GameObject: {fileID: 6632393367118408484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0529995, z: -0.421}
-  m_LocalScale: {x: 0.486926, y: 1, z: 0.26912674}
+  m_LocalPosition: {x: 0, y: 0.142, z: -0.6679993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5817233518653941314}
@@ -765,7 +765,7 @@ Transform:
   m_GameObject: {fileID: 7565967625940342664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 0.225, z: 2.34}
+  m_LocalPosition: {x: 1, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -818,7 +818,7 @@ Transform:
   m_GameObject: {fileID: 8572673292141365083}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: 0.225, z: 2.3400002}
+  m_LocalPosition: {x: -1, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -871,7 +871,7 @@ Transform:
   m_GameObject: {fileID: 8623789067131943291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: 0.225, z: -4.5699954}
+  m_LocalPosition: {x: -1, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -974,6 +974,7 @@ MonoBehaviour:
   OnStopReversing:
     m_PersistentCalls:
       m_Calls: []
+  mass: 20
   maxVelocity: 30
   motorForce: 200
   motorForceCurve:
@@ -1130,8 +1131,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   BoostForce: 300
-  acceptableRollAngle: {x: -45, y: 45}
-  acceptablePitchAngle: {x: -45, y: 45}
+  acceptableRollAngle: {x: 0, y: 180}
+  acceptablePitchAngle: {x: 0, y: 180}
   visual: {fileID: 4443631299142428875}
   floaters:
   - {fileID: 8866488802969725864}

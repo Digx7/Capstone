@@ -43,7 +43,7 @@ public class Car : Vehicle
     public override void Initialize()
     {
         base.Initialize();
-        rb.mass = 1500;
+        rb.mass = mass;
         rb.drag = 0f;
 
         OnStartChargeBoost.AddListener(DisplayDriftParticles);

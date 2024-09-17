@@ -15,6 +15,7 @@ public class Vehicle : MonoBehaviour
     public UnityEvent OnStartReversing;
     public UnityEvent OnStopReversing;
     
+    [SerializeField] protected float mass;
 
 
     // References
