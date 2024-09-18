@@ -10,18 +10,62 @@ public class WaveManager : GenericSingleton<WaveManager>
     public Wave waveBdata;
     public Wave waveCdata;
 
+    [SerializeField] private List<float> WaveRatios;
+    public float smallestPreQ;
+    public float largestWaveLength;
+    private float largestPreQ;
+    private float largestRatio = 0;
+    private float smallestRatio = 100000f;
+    [SerializeField] private List<float> WavePreQValues;
+    [SerializeField] private List<float> WaveLengths;
+    private int largestWaveIndex = 0;
+
     private float time = 0f;
+    [SerializeField] private float loopTime;
     
     private float PI = 3.14159f;
 
     private void Awake()
     {
+
+        // TODO: Make it so the below code takes the Wave Ratios and the Largest wave, not the smallest pre q 
+        
+        for (int i = 0; i < WaveRatios.Count; i++)
+        {
+            if(WaveRatios[i] > largestRatio) largestRatio = WaveRatios[i];
+            if(WaveRatios[i] < smallestRatio) 
+            {
+                smallestRatio = WaveRatios[i];
+                largestWaveIndex = i;
+            }
+        }
+
+        float k = smallestPreQ * largestRatio;
+
+        for (int i = 0; i < WaveRatios.Count; i++)
+        {
+            WavePreQValues.Add(k / WaveRatios[i]);
+            WaveLengths.Add(Mathf.Pow(WavePreQValues[i], 2f));
+        }
+
+        loopTime = WavePreQValues[largestWaveIndex] / (Mathf.Sqrt( 9.8f / (2f * Mathf.PI) ));
+
+        waveAdata.wavelength = WaveLengths[0];
+        waveBdata.wavelength = WaveLengths[1];
+        waveCdata.wavelength = WaveLengths[2];
+
         SetShaderGlobalVariables();
     }
 
     private void Update()
     {
         UpdateShaderTime();
+    }
+
+    private float GetWaveLoopTime(Wave _wave)
+    {
+        float _speed = Mathf.Sqrt(9.8f * _wave.wavelength / (2f * Mathf.PI));
+        return (_wave.wavelength / _speed);
     }
 
     private void SetShaderGlobalVariables()
@@ -35,7 +79,6 @@ public class WaveManager : GenericSingleton<WaveManager>
         Shader.SetGlobalVector("_WaveA", waveA);
         Shader.SetGlobalVector("_WaveB", waveB);
         Shader.SetGlobalVector("_WaveC", waveC);
-        Shader.SetGlobalFloat("_TimeStamp", time);
     }
 
     private void UpdateShaderTime()
@@ -44,9 +87,10 @@ public class WaveManager : GenericSingleton<WaveManager>
         //this is needed to keep the wave calulations for height made by this script 
         //and the rendering in synce 
 
-        // time += Time.deltaTime;
-        time = Time.time;
-        Shader.SetGlobalFloat("_TimeStamp", time);
+        time += Time.deltaTime;
+        if(time >= loopTime) time = 0;
+
+        Shader.SetGlobalFloat("_CustomTIme", time);
     }
 
     private Vector3 CalculateGerstnerWavePointGivenLocation(Wave waveData, Vector3 location)

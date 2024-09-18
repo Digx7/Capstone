@@ -5413,6 +5413,15 @@ MonoBehaviour:
     direction_y: -0.25
     steepness: 0.1
     wavelength: 30
+  WaveRatios:
+  - 1
+  - 2
+  - 2.5
+  smallestPreQ: 2
+  largestWaveLength: 0
+  WavePreQValues: []
+  WaveLengths: []
+  loopTime: 6.405704
 --- !u!23 &1294565204
 MeshRenderer:
   m_ObjectHideFlags: 0

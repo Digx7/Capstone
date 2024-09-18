@@ -1131,8 +1131,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   BoostForce: 300
-  acceptableRollAngle: {x: 0, y: 180}
-  acceptablePitchAngle: {x: 0, y: 180}
+  acceptableRollAngle: 45
+  acceptablePitchAngle: 45
   visual: {fileID: 4443631299142428875}
   floaters:
   - {fileID: 8866488802969725864}

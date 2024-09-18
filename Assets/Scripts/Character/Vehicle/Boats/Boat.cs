@@ -14,8 +14,8 @@ public class Boat : Vehicle
     [SerializeField] private float steeringTorque;
     [SerializeField] private AnimationCurve steeringTorqueCurve;
     [SerializeField] private float BoostForce;
-    [SerializeField] private Vector2 acceptableRollAngle;
-    [SerializeField] private Vector2 acceptablePitchAngle;
+    [SerializeField] private float acceptableRollAngle;
+    [SerializeField] private float acceptablePitchAngle;
 
     private bool isSubmerged = false;
     public void SetSubmerged(bool value) => isSubmerged = value;
@@ -29,7 +29,7 @@ public class Boat : Vehicle
     {
         base.FixedUpdate();
 
-        // KeepUp();
+        KeepUp();
     }
 
     public override void Initialize()
@@ -139,11 +139,13 @@ public class Boat : Vehicle
     {
         Vector3 boatEularAngles = transform.parent.localRotation.eulerAngles;
 
-        boatEularAngles.z = (boatEularAngles.z > 180) ? boatEularAngles.z - 360 : boatEularAngles.z;
-        boatEularAngles.z = Mathf.Clamp(boatEularAngles.z, acceptableRollAngle.x, acceptableRollAngle.x);
+        // Debug.Log("boat rot: " + boatEularAngles);
 
-        boatEularAngles.x = (boatEularAngles.x > 180) ? boatEularAngles.x - 360 : boatEularAngles.x;
-        boatEularAngles.x = Mathf.Clamp(boatEularAngles.x, acceptablePitchAngle.x, acceptablePitchAngle.x);
+        if(boatEularAngles.x < 180 && boatEularAngles.x > acceptablePitchAngle) boatEularAngles.x = acceptablePitchAngle;
+        if(boatEularAngles.x > 180 && boatEularAngles.x < (360 - acceptablePitchAngle)) boatEularAngles.x = (360 - acceptablePitchAngle);
+
+        if(boatEularAngles.z < 180 && boatEularAngles.z > acceptableRollAngle) boatEularAngles.z = acceptableRollAngle;
+        if(boatEularAngles.z > 180 && boatEularAngles.z < (360 - acceptableRollAngle)) boatEularAngles.z = (360 - acceptableRollAngle);
 
         transform.parent.localRotation = Quaternion.Euler(boatEularAngles);
     }
