@@ -5578,7 +5578,7 @@ PrefabInstance:
         type: 3}
       propertyPath: newVehicle
       value: 
-      objectReference: {fileID: 8643822006535076174, guid: 9faa4d18850c2874f93276e826015fd5,
+      objectReference: {fileID: 6932964543443355702, guid: 544fcd6223752d74bb191cb9c0948308,
         type: 3}
     - target: {fileID: 1621184514235603698, guid: 7dc009252c1b90a459140c60bfe648a9,
         type: 3}
@@ -5661,7 +5661,7 @@ PrefabInstance:
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.47
+      value: 10.39
       objectReference: {fileID: 0}
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
@@ -5708,6 +5708,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterWithPlayerController
       objectReference: {fileID: 0}
+    - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
+        type: 3}
+      propertyPath: startingVehicle
+      value: 
+      objectReference: {fileID: 6395690461368071775, guid: 7eb33b89606687448907c63edef235c9,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

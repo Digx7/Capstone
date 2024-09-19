@@ -129,12 +129,12 @@ public class Car : Vehicle
 
         if(driftDirection == DriftDirection.Right)
         {
-            currentEulerAngles.y = 90 + 15;
+            currentEulerAngles.y = 15;
             visual.transform.localEulerAngles = currentEulerAngles;
         }
         else
         {
-            currentEulerAngles.y = 90 - 15;
+            currentEulerAngles.y = -15;
             visual.transform.localEulerAngles = currentEulerAngles;
         }
     }
@@ -142,7 +142,7 @@ public class Car : Vehicle
     protected override void StopDrifting()
     {
         base.StopDrifting();
-        visual.transform.localEulerAngles = new Vector3(0,90,0);
+        visual.transform.localEulerAngles = new Vector3(0,0,0);
     }
 
     protected override void ApplyBoost()
