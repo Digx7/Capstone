@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,26 +11,34 @@ public class WaveManager : GenericSingleton<WaveManager>
     public Wave waveBdata;
     public Wave waveCdata;
 
-    [SerializeField] private List<float> WaveRatios;
-    public float smallestPreQ;
-    public float largestWaveLength;
-    private float largestPreQ;
-    private float largestRatio = 0;
-    private float smallestRatio = 100000f;
-    [SerializeField] private List<float> WavePreQValues;
-    [SerializeField] private List<float> WaveLengths;
+    [SerializeField] private List<double> WaveRatios;
+    [SerializeField] private double largestWaveLength;
+    private double largestRatio = Mathf.NegativeInfinity;
+    private double smallestRatio = Mathf.Infinity;
+    private List<double> WavePreQValues;
+    private List<double> WaveLengths;
     private int largestWaveIndex = 0;
 
     private float time = 0f;
-    [SerializeField] private float loopTime;
-    
-    private float PI = 3.14159f;
+    private double loopTime = 0;
 
     private void Awake()
-    {
+    {    
+        SetLoopTime();
+        SetShaderGlobalVariables();
+    }
 
-        // TODO: Make it so the below code takes the Wave Ratios and the Largest wave, not the smallest pre q 
+    private void Update()
+    {
+        UpdateShaderTime();
+    }
+
+    private void SetLoopTime()
+    {
+        WavePreQValues = new List<double>();
+        WaveLengths = new List<double>();
         
+        // Get largest Wave and smallest Wave (largest Ratio)
         for (int i = 0; i < WaveRatios.Count; i++)
         {
             if(WaveRatios[i] > largestRatio) largestRatio = WaveRatios[i];
@@ -40,32 +49,21 @@ public class WaveManager : GenericSingleton<WaveManager>
             }
         }
 
-        float k = smallestPreQ * largestRatio;
-
+        // Compute WavePreQValues and WaveLengths
+        double largestPreQ = Math.Sqrt(largestWaveLength);
         for (int i = 0; i < WaveRatios.Count; i++)
         {
-            WavePreQValues.Add(k / WaveRatios[i]);
-            WaveLengths.Add(Mathf.Pow(WavePreQValues[i], 2f));
+            WavePreQValues.Add(largestPreQ / WaveRatios[i]);
+            WaveLengths.Add(Math.Pow(WavePreQValues[i], 2f));
         }
 
-        loopTime = WavePreQValues[largestWaveIndex] / (Mathf.Sqrt( 9.8f / (2f * Mathf.PI) ));
+        // Compute loop time
+        loopTime = WavePreQValues[largestWaveIndex] / (Math.Sqrt( 9.8f / (2f * Mathf.PI) ));
 
-        waveAdata.wavelength = WaveLengths[0];
-        waveBdata.wavelength = WaveLengths[1];
-        waveCdata.wavelength = WaveLengths[2];
-
-        SetShaderGlobalVariables();
-    }
-
-    private void Update()
-    {
-        UpdateShaderTime();
-    }
-
-    private float GetWaveLoopTime(Wave _wave)
-    {
-        float _speed = Mathf.Sqrt(9.8f * _wave.wavelength / (2f * Mathf.PI));
-        return (_wave.wavelength / _speed);
+        // Set wave and shader variables
+        waveAdata.wavelength = (float) WaveLengths[0];
+        waveBdata.wavelength = (float) WaveLengths[1];
+        waveCdata.wavelength = (float) WaveLengths[2];
     }
 
     private void SetShaderGlobalVariables()
@@ -97,7 +95,7 @@ public class WaveManager : GenericSingleton<WaveManager>
     {
         float steepness = waveData.steepness;
         float wavelength = waveData.wavelength;
-        float k = 2 * PI / wavelength;
+        float k = 2 * Mathf.PI / wavelength;
         float c = Mathf.Sqrt(9.8f / k);
         Vector2 d = new Vector2();
         d.x = waveData.direction_x;

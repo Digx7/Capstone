@@ -5407,21 +5407,17 @@ MonoBehaviour:
     direction_x: 0.4
     direction_y: -0.6
     steepness: 0.2
-    wavelength: 40
+    wavelength: 30
   waveCdata:
     direction_x: -0.5
     direction_y: -0.25
     steepness: 0.1
-    wavelength: 30
+    wavelength: 25
   WaveRatios:
   - 1
-  - 2
-  - 2.5
-  smallestPreQ: 2
-  largestWaveLength: 0
-  WavePreQValues: []
-  WaveLengths: []
-  loopTime: 6.405704
+  - 1
+  - 1
+  largestWaveLength: 40
 --- !u!23 &1294565204
 MeshRenderer:
   m_ObjectHideFlags: 0
