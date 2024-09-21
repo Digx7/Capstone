@@ -36,14 +36,22 @@ public class Boat : Vehicle
     {
         base.Initialize();
 
-        rb.useGravity = false;
-        rb.mass = mass;
-        rb.drag = 0.5f;
-
         foreach (Floater floater in floaters)
         {
             floater.rigidbody = rb;
         }
+    }
+
+    public override void SwitchToVehicle()
+    {
+        // rb.useGravity = false;
+        // rb.mass = mass;
+        // rb.drag = drag;
+    }
+
+    public override void SwitchOffVehicle()
+    {
+        
     }
     
     public override void Accelerate(float accelerateStrength)

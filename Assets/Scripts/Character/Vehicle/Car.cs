@@ -37,17 +37,36 @@ public class Car : Vehicle
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        UpdateWheels();
+        if(hasInitialized) UpdateWheels();
     }
 
     public override void Initialize()
     {
+        Transform parent = transform.parent;
+        Transform wheelColliders = parent.Find("Wheel Colliders");
+
+        frontLeftWheelCollider = wheelColliders.Find("Front Left Collider").GetComponent<WheelCollider>();
+        frontRightWheelCollider = wheelColliders.Find("Front Right Collider").GetComponent<WheelCollider>();
+        backLeftWheelCollider = wheelColliders.Find("Back Left Collider").GetComponent<WheelCollider>();
+        backRightWheelCollider = wheelColliders.Find("Back Right Collider").GetComponent<WheelCollider>();
+        
         base.Initialize();
-        rb.mass = mass;
-        rb.drag = 0f;
+        
 
         OnStartChargeBoost.AddListener(DisplayDriftParticles);
         OnChargeBoostLevelChanged.AddListener(ChangeDriftParticleLevel);
+    }
+
+    public override void SwitchToVehicle()
+    {
+        // rb.useGravity = true;
+        // rb.mass = mass;
+        // rb.drag = drag;
+    }
+
+    public override void SwitchOffVehicle()
+    {
+        
     }
     
     public override void Accelerate(float accelerateStrength)

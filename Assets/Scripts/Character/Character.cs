@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum VehicleType {Car, Boat};
+
 public class Character : MonoBehaviour
 {
     private DriftDirection lastDriftDirection;
     
     public GameObject startingVehicle;
+    public GameObject carPrefab;
+    public GameObject boatPrefab;
     
     [SerializeField] private int ID;
     [SerializeField] private Vehicle vehicle;
+    [SerializeField] private VehicleType activeVehicleType;
+    [SerializeField] private Car car;
+    [SerializeField] private Boat boat;
     [SerializeField] private DriverModelController driverModelController;
     [SerializeField] private List<GameObject> allPossibleItemPrefabs;
     [SerializeField] private GameObject currentItemPrefab = null;
@@ -35,31 +42,64 @@ public class Character : MonoBehaviour
 
     public void Start()
     {
-        SetVehicle(startingVehicle);
-        SetVehicle(startingVehicle);
+        LoadVehicles();
     }
 
-    public void SetVehicle(GameObject newVehicle)
+    private void LoadVehicles()
     {
-        if (vehicle != null) Destroy(vehicle.gameObject);
+        GameObject spawnedCar = Instantiate(carPrefab, this.transform);
+        GameObject spawnedBoat = Instantiate(boatPrefab, this.transform);
 
-        gameObject.GetComponent<Rigidbody>().useGravity = false;
-        Vector3 pos = transform.position;
-        pos.y += 0.1f;
-        transform.position = pos;
+        car = spawnedCar.GetComponent<Car>();
+        boat = spawnedBoat.GetComponent<Boat>();
 
-        GameObject spawnedVehicle = Instantiate(newVehicle, this.transform);
-        vehicle = spawnedVehicle.GetComponent<Vehicle>();
-        vehicle.Initialize();
+        car.Initialize();
+        boat.Initialize();
+
+        car.OnStartReversing.AddListener(StartReversing);
+        boat.OnStartReversing.AddListener(StartReversing);
+        car.OnStopReversing.AddListener(StopReversing);
+        boat.OnStopReversing.AddListener(StopReversing);
+        car.OnIdle.AddListener(Idle);
+        boat.OnIdle.AddListener(Idle);
+
+        boat.SwitchOffVehicle();
+        car.SwitchToVehicle();
+
+        car.gameObject.SetActive(true);
+        boat.gameObject.SetActive(false);
+
+        vehicle = car;
+    }
+
+    public void SwtichVehicle(VehicleType newVehicleType)
+    {
+        switch (newVehicleType)
+        {
+            case VehicleType.Car:
+                boat.SwitchOffVehicle();
+                car.SwitchToVehicle();
+                
+                car.gameObject.SetActive(true);
+                boat.gameObject.SetActive(false);
+                vehicle = car;
+                break;
+            case VehicleType.Boat:
+                car.SwitchOffVehicle();
+                boat.SwitchToVehicle();
+
+                boat.gameObject.SetActive(true);
+                car.gameObject.SetActive(false);
+                vehicle = boat;
+                break;
+            default:
+                break;
+        }
+
         Accelerate(lastAccelerateStrength);
         Brake(lastBrakeStrength);
         Turn(lastTurnAmount);
         vehicle.TryDriftInDirection(lastDriftState,lastDriftDirection);
-
-        vehicle.OnStartReversing.AddListener(StartReversing);
-        vehicle.OnStopReversing.AddListener(StopReversing);
-        vehicle.OnIdle.AddListener(Idle);
-
     }
 
     private void Idle()

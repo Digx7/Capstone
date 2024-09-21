@@ -16,6 +16,7 @@ public class Vehicle : MonoBehaviour
     public UnityEvent OnStopReversing;
     
     [SerializeField] protected float mass;
+    [SerializeField] protected float drag;
 
 
     // References
@@ -51,18 +52,35 @@ public class Vehicle : MonoBehaviour
     private float brakeStrength;
     private float turnAmount;
 
+    protected bool hasInitialized = false;
+
+    private void Update()
+    {
+        if(hasInitialized) Debug.Log("Velocity: " + rb.velocity);
+    }
+
     public virtual void Initialize()
     {
         
         if(transform.parent.gameObject.TryGetComponent<Rigidbody>(out _rb))
         {
-            rb.useGravity = true; 
+            hasInitialized = true;
         }
         else
         {
             ErrorNullRigidbody();
         }
         
+        
+    }
+
+    public virtual void SwitchToVehicle()
+    {
+
+    }
+
+    public virtual void SwitchOffVehicle()
+    {
         
     }
 

@@ -29,7 +29,7 @@ public class Floater : MonoBehaviour
         if(waveManager == null) return;
 
 
-        rigidbody.AddForceAtPosition(Physics.gravity / floaterCount, transform.position, ForceMode.Acceleration);
+        // rigidbody.AddForceAtPosition(Physics.gravity / floaterCount, transform.position, ForceMode.Acceleration);
         
         float waveHeight = waveManager.GetWaveHeightAtLocation(transform.position);
         if (transform.position.y < waveHeight)
