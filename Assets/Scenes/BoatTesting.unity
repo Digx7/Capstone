@@ -6074,7 +6074,7 @@ PrefabInstance:
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.28
+      value: -27.22
       objectReference: {fileID: 0}
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
@@ -6118,6 +6118,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
+      propertyPath: carPrefab
+      value: 
+      objectReference: {fileID: 6395690461368071775, guid: c365974c0a6cc06498ef9272c7114192,
+        type: 3}
+    - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
+        type: 3}
+      propertyPath: boatPrefab
+      value: 
+      objectReference: {fileID: 8643822006535076174, guid: 6aa51d97b3c13984196ef93d13bae809,
+        type: 3}
+    - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
+        type: 3}
+      propertyPath: characterPrefab
+      value: 
+      objectReference: {fileID: 6933777419048332421, guid: 2818e4a744523954191ca85a17153550,
+        type: 3}
+    - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
+        type: 3}
       propertyPath: startingVehicle
       value: 
       objectReference: {fileID: 6395690461368071775, guid: 7eb33b89606687448907c63edef235c9,
@@ -6125,7 +6143,7 @@ PrefabInstance:
     - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
       propertyPath: startingVehicleType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
