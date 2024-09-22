@@ -9,18 +9,20 @@ public class Character : MonoBehaviour
 {
     private DriftDirection lastDriftDirection;
     
-    public GameObject startingVehicle;
+    public GameObject characterPrefab;
     public GameObject carPrefab;
     public GameObject boatPrefab;
+
+    [SerializeField] private VehicleType startingVehicleType;
     
-    [SerializeField] private int ID;
-    [SerializeField] private Vehicle vehicle;
-    [SerializeField] private VehicleType activeVehicleType;
-    [SerializeField] private Car car;
-    [SerializeField] private Boat boat;
-    [SerializeField] private DriverModelController driverModelController;
+    private int ID;
+    private Vehicle vehicle;
+    private GameObject characterModel;
+    private Car car;
+    private Boat boat;
+    private DriverModelController driverModelController;
     [SerializeField] private List<GameObject> allPossibleItemPrefabs;
-    [SerializeField] private GameObject currentItemPrefab = null;
+    private GameObject currentItemPrefab = null;
 
     public UnityEvent OnIdle;
     public UnityEvent OnDrive;
@@ -43,33 +45,58 @@ public class Character : MonoBehaviour
     public void Start()
     {
         LoadVehicles();
+        LoadCharacter();
     }
 
     private void LoadVehicles()
     {
-        GameObject spawnedCar = Instantiate(carPrefab, this.transform);
-        GameObject spawnedBoat = Instantiate(boatPrefab, this.transform);
+        // GameObject spawnedCar = Instantiate(carPrefab, this.transform);
+        // GameObject spawnedBoat = Instantiate(boatPrefab, this.transform);
 
-        car = spawnedCar.GetComponent<Car>();
-        boat = spawnedBoat.GetComponent<Boat>();
+        // car = spawnedCar.GetComponent<Car>();
+        // boat = spawnedBoat.GetComponent<Boat>();
 
-        car.Initialize();
-        boat.Initialize();
+        // car.Initialize();
+        // boat.Initialize();
 
-        car.OnStartReversing.AddListener(StartReversing);
-        boat.OnStartReversing.AddListener(StartReversing);
-        car.OnStopReversing.AddListener(StopReversing);
-        boat.OnStopReversing.AddListener(StopReversing);
-        car.OnIdle.AddListener(Idle);
-        boat.OnIdle.AddListener(Idle);
+        // car.OnStartReversing.AddListener(StartReversing);
+        // boat.OnStartReversing.AddListener(StartReversing);
+        // car.OnStopReversing.AddListener(StopReversing);
+        // boat.OnStopReversing.AddListener(StopReversing);
+        // car.OnIdle.AddListener(Idle);
+        // boat.OnIdle.AddListener(Idle);
 
-        boat.SwitchOffVehicle();
-        car.SwitchToVehicle();
+        // boat.SwitchOffVehicle();
+        // car.SwitchToVehicle();
 
-        car.gameObject.SetActive(true);
-        boat.gameObject.SetActive(false);
+        // car.gameObject.SetActive(true);
+        // boat.gameObject.SetActive(false);
 
-        vehicle = car;
+        // vehicle = car;
+
+        car = SpawnVehicle(carPrefab).GetComponent<Car>();
+        boat = SpawnVehicle(boatPrefab).GetComponent<Boat>();
+
+        SetUpVehicle(car);
+        SetUpVehicle(boat);
+
+        SwtichVehicle(startingVehicleType);
+    }
+
+    private GameObject SpawnVehicle(GameObject prefab) => Instantiate(prefab, this.transform);
+
+    private void SetUpVehicle(Vehicle vehicle)
+    {
+        vehicle.Initialize();
+
+        vehicle.OnStartReversing.AddListener(StartReversing);
+        vehicle.OnStopReversing.AddListener(StopReversing);
+        vehicle.OnIdle.AddListener(Idle);
+    }
+
+    private void LoadCharacter()
+    {
+        characterModel = Instantiate(characterPrefab, this.transform);
     }
 
     public void SwtichVehicle(VehicleType newVehicleType)

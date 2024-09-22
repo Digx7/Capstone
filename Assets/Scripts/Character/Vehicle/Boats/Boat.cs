@@ -120,12 +120,12 @@ public class Boat : Vehicle
 
         if(driftDirection == DriftDirection.Right)
         {
-            currentEulerAngles.y = 180 + 15;
+            currentEulerAngles.y = 15;
             visual.transform.localEulerAngles = currentEulerAngles;
         }
         else
         {
-            currentEulerAngles.y = 180 - 15;
+            currentEulerAngles.y = -15;
             visual.transform.localEulerAngles = currentEulerAngles;
         }
     }
@@ -133,7 +133,7 @@ public class Boat : Vehicle
     protected override void StopDrifting()
     {
         base.StopDrifting();
-        visual.transform.localEulerAngles = new Vector3(0,180,0);
+        visual.transform.localEulerAngles = new Vector3(0,0,0);
     }
 
     protected override void ApplyBoost()

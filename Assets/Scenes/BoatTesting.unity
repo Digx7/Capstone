@@ -6074,7 +6074,7 @@ PrefabInstance:
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.58
+      value: 10.28
       objectReference: {fileID: 0}
     - target: {fileID: 1275480378632274514, guid: 04ab83c886cf602409973c369b008f8e,
         type: 3}
@@ -6122,6 +6122,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6395690461368071775, guid: 7eb33b89606687448907c63edef235c9,
         type: 3}
+    - target: {fileID: 4862416579352428633, guid: 04ab83c886cf602409973c369b008f8e,
+        type: 3}
+      propertyPath: startingVehicleType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
