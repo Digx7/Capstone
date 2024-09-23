@@ -5210,7 +5210,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  breakForce: 3000
+  breakForce: 3000000
   maxSteerAngle: 45
   steeringCurve:
     serializedVersion: 2
