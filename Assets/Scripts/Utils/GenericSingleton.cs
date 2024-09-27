@@ -40,6 +40,7 @@ public class GenericSingleton<T> : MonoBehaviour where T : Component
         }
         else
         {
+            Debug.Log("A Singleton is being destroyed because anotherone already exists");
             Destroy(gameObject);
         }
     }

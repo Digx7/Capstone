@@ -56,7 +56,7 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        if(hasInitialized) Debug.Log("Velocity: " + rb.velocity);
+        // if(hasInitialized) Debug.Log("Velocity: " + rb.velocity);
     }
 
     public virtual void Initialize()
@@ -135,7 +135,7 @@ public class Vehicle : MonoBehaviour
             }
             else if(speed > 0.1)
             {
-                Debug.Log("Stopting Idle Timer");
+                // Debug.Log("Stopting Idle Timer");
                 StopCoroutine("IdleWaitTimer");
                 idleTimerIsGoing = false;
                 isIdle = false;
@@ -151,11 +151,11 @@ public class Vehicle : MonoBehaviour
 
     private IEnumerator IdleWaitTimer()
     {
-        Debug.Log("IdleWaitTimer Started");
+        // Debug.Log("IdleWaitTimer Started");
         idleTimerIsGoing = true;
         yield return new WaitForSeconds(1);
         idleTimerIsGoing = false;
-        Debug.Log("OnIdle.Invoke");
+        // Debug.Log("OnIdle.Invoke");
         OnIdle.Invoke();
         isIdle = true;
     }

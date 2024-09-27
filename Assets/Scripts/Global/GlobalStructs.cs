@@ -7,6 +7,19 @@ public class GlobalStructs : MonoBehaviour
 }
 
 [System.Serializable]
+public struct NamedGameObject
+{
+    public string name;
+    public GameObject obj;
+
+    public NamedGameObject(string _name = "", GameObject _obj = null)
+    {
+        name = _name;
+        obj = _obj;
+    }
+}
+
+[System.Serializable]
 public struct Wave
 {
     public float direction_x;

@@ -34,6 +34,10 @@ public class CarCamerasFacade : MonoBehaviour
     private void SetTarget()
     {
         cinemachineStateDrivenCamera.Follow = target.transform;
+        foreach (CinemachineCamera cinemachineCamera in cinemachineCameras)
+        {
+            cinemachineCamera.Follow = target.transform;
+        }
     }
 
     private void SetCinemachineChannels()
