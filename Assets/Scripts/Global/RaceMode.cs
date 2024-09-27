@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class RaceMode : GameMode
 {
@@ -16,6 +17,9 @@ public class RaceMode : GameMode
         SpawnCharacterAt(playerPrefab, playerStartLocation);
 
         // Play Cutscene
+        PlayableDirector playableDirector = GameObject.FindObjectOfType<PlayableDirector>();
+        playableDirector.Play();
+
         // Start Race
 
 
@@ -27,6 +31,14 @@ public class RaceMode : GameMode
         DespawnAllCharacters();
 
         base.TearDown();
+    }
+
+    public void EndRace()
+    {
+        // Play Race Outro
+        // Switch back to FreeRoam
+        
+        GameManager.Instance.SwitchToGameMode("FreeRoam");
     }
 
     private RaceData RetrieveRaceData()

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3820876596146998561}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.508862, y: 15.120001, z: -50.672363}
+  m_LocalPosition: {x: 15.508862, y: 10, z: -50.672363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50,6 +50,10 @@ MonoBehaviour:
   OnTearDownEnd:
     m_PersistentCalls:
       m_Calls: []
+  OnEnableControlsSignal: {fileID: 11400000, guid: 213f47e3c21a84241aed96760e958de1,
+    type: 2}
+  OnDisableControlsSignal: {fileID: 11400000, guid: cfdd6fc93b6c726409afcaaff90552a2,
+    type: 2}
   raceData: {fileID: 0}
   playerStartLocation: {x: 15, y: 12, z: -58}
   playerPrefab: {fileID: 2134331569741906326, guid: 04ab83c886cf602409973c369b008f8e,

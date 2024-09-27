@@ -22,8 +22,10 @@ public class WaveManager : GenericSingleton<WaveManager>
     private float time = 0f;
     private double loopTime = 0;
 
-    private void Awake()
+    public override void Awake()
     {    
+        base.Awake();
+
         SetLoopTime();
         SetShaderGlobalVariables();
     }

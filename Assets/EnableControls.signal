@@ -9,12 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc64add28e256c54cb35747c6f29ca7c, type: 3}
-  m_Name: TimeTrial_SouthToNorthGate
+  m_Script: {fileID: 11500000, guid: d6fa2d92fc1b3f34da284357edf89c3b, type: 3}
+  m_Name: EnableControls
   m_EditorClassIdentifier: 
-  startingLocation: 1
-  endingLoaction: 0
-  difficulty: 1
-  goldMedalTime: 0.5
-  silverMedalTime: 0.75
-  bronzeMedalTime: 1

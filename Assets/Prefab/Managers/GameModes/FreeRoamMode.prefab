@@ -50,6 +50,10 @@ MonoBehaviour:
   OnTearDownEnd:
     m_PersistentCalls:
       m_Calls: []
+  OnEnableControlsSignal: {fileID: 11400000, guid: 213f47e3c21a84241aed96760e958de1,
+    type: 2}
+  OnDisableControlsSignal: {fileID: 11400000, guid: cfdd6fc93b6c726409afcaaff90552a2,
+    type: 2}
   playerStartLocation: {x: 10, y: 12, z: -58}
   playerPrefab: {fileID: 2134331569741906326, guid: 04ab83c886cf602409973c369b008f8e,
     type: 3}

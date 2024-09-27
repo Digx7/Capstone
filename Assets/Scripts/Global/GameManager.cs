@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : GenericSingleton<GameManager>
 {
     public List<NamedGameObject> gameModes;
+
+    public UnityEvent OnSwitchGameMode;
 
     private bool GameModeSetupDone = false;
     private bool GameModeTearDownDone = false;
@@ -72,6 +75,7 @@ public class GameManager : GenericSingleton<GameManager>
         GameModeTearDownDone = false;
 
         Destroy(GameMode.Instance.gameObject);
+        yield return new WaitForEndOfFrame();
 
         yield return null;
         UnloadedGameMode = true;
@@ -89,7 +93,7 @@ public class GameManager : GenericSingleton<GameManager>
         Debug.Log("Trying to instatiate " + newGameMode.obj);
         Instantiate(newGameMode.obj);
 
-        // yield return new WaitUntil(() => !(GameObject.FindObjectOfType<GameMode> == null));
+        yield return new WaitForEndOfFrame();
 
         GameMode gameMode = GameMode.Instance;
         GameMode.Instance.OnSetupEnd.AddListener(OnGameModeSetupFinish);
@@ -99,6 +103,7 @@ public class GameManager : GenericSingleton<GameManager>
         GameModeSetupDone = false;
 
         LoadedGameMode = true;
+        OnSwitchGameMode.Invoke();
         Debug.Log("Ending LoadGameMode");
     }
 }

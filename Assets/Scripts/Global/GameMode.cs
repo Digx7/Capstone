@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Timeline;
 
 public class GameMode : GenericSingleton<GameMode>
 {
     public UnityEvent OnSetupEnd;
     public UnityEvent OnTearDownEnd;
+
+    public SignalAsset OnEnableControlsSignal;
+    public SignalAsset OnDisableControlsSignal;
 
     private List<NamedGameObject> characters;
     
@@ -29,22 +33,36 @@ public class GameMode : GenericSingleton<GameMode>
 
     public virtual void Setup()
     {
+        SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
+        signalReceiver.GetReaction(OnEnableControlsSignal).AddListener(EnableAllControls);
+        signalReceiver.GetReaction(OnDisableControlsSignal).AddListener(DisableAllControls);
+        
         OnSetupEnd.Invoke();
     }
 
     public virtual void TearDown()
     {
+        SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
+        signalReceiver.GetReaction(OnEnableControlsSignal).RemoveListener(EnableAllControls);
+        signalReceiver.GetReaction(OnDisableControlsSignal).RemoveListener(DisableAllControls);
+
         OnTearDownEnd.Invoke();
     }
 
     protected virtual void EnableAllControls()
     {
-        // enable all controllers
+        foreach (NamedGameObject _character in characters)
+        {
+            _character.obj.GetComponentInChildren<GameController>().SetEnabled(true);
+        }
     }
 
-    protected virtual void DisableAllContorls()
+    protected virtual void DisableAllControls()
     {
-        // disable all controllers
+        foreach (NamedGameObject _character in characters)
+        {
+            _character.obj.GetComponentInChildren<GameController>().SetEnabled(false);
+        }
     }
 
     protected virtual void SpawnCharacterAt(GameObject prefab)

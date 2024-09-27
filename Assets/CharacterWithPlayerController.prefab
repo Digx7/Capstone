@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possesedCharacter: {fileID: 4862416579352428633}
+  Enabled: 1
 --- !u!1 &2134331569741906326
 GameObject:
   m_ObjectHideFlags: 0

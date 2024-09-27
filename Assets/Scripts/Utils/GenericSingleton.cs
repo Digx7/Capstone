@@ -19,15 +19,21 @@ public class GenericSingleton<T> : MonoBehaviour where T : Component
 
                 // if it's null again create a new object
                 // and attach the generic instance
-                if (instance == null)
-                {
-                    GameObject obj = new GameObject();
-                    obj.name = typeof(T).Name;
-                    instance = obj.AddComponent<T>();
-                }
+                // if (instance == null)
+                // {
+                //     GameObject obj = new GameObject();
+                //     obj.name = typeof(T).Name;
+                //     instance = obj.AddComponent<T>();
+                // }
             }
             return instance;
         }
+    }
+    
+    public static bool IsInstanceNull()
+    {
+        if(instance == null) return true;
+        else return false;
     }
 
     public virtual void Awake()
@@ -40,7 +46,7 @@ public class GenericSingleton<T> : MonoBehaviour where T : Component
         }
         else
         {
-            Debug.Log("A Singleton is being destroyed because anotherone already exists");
+            Debug.Log("A Singleton: " + this.gameObject.name + "is being destroyed because another one (" + instance.gameObject.name + ") already exists");
             Destroy(gameObject);
         }
     }

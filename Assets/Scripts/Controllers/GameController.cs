@@ -5,30 +5,32 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Character possesedCharacter;
+    [SerializeField] private bool Enabled = true;
+    public void SetEnabled(bool value) => Enabled = value;
 
     public virtual void Accelerate(float accelerateStrength)
     {
-        possesedCharacter.Accelerate(accelerateStrength);
+        if(Enabled) possesedCharacter.Accelerate(accelerateStrength);
     }
 
     public virtual void Brake(float brakeStrength)
     {
-        possesedCharacter.Brake(brakeStrength);
+        if(Enabled) possesedCharacter.Brake(brakeStrength);
     }
 
     public virtual void Turn(float turnAmount)
     {
-        possesedCharacter.Turn(turnAmount);
+        if(Enabled) possesedCharacter.Turn(turnAmount);
     }
 
     public virtual void Drift(bool isDrifting)
     {
-        possesedCharacter.Drift(isDrifting);
+        if(Enabled) possesedCharacter.Drift(isDrifting);
     }
 
     public virtual void UseItem()
     {
-        possesedCharacter.UseItem();
+        if(Enabled) possesedCharacter.UseItem();
     }
 
     public bool TryToPossesCharacter(Character character)
