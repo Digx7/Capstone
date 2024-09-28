@@ -9,6 +9,7 @@ public class FreeRoamMode : GameMode
     
     public override void Setup()
     {
+        //TODO: get playerStartLocation from savedata
         SpawnCharacterAt(playerPrefab, playerStartLocation);
 
         base.Setup();
