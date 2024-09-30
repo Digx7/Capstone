@@ -25,6 +25,11 @@ public class GameManager : GenericSingleton<GameManager>
             return;
         }
 
+        // StartCoroutine(LoadGameMode(gameModes[0]));
+    }
+
+    public void Start()
+    {
         StartCoroutine(LoadGameMode(gameModes[0]));
     }
 

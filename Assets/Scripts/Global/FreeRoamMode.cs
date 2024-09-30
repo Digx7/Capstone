@@ -12,7 +12,9 @@ public class FreeRoamMode : GameMode
     
     public override void Setup()
     {
-        SpawnCharacterAt(playerPrefab, playerStartLocation);
+        Vector3 pos = SaveManager.Instance.loadedSave.TryGetValue<Vector3>("PlayerPosition");
+        
+        SpawnCharacterAt(playerPrefab, pos);
 
         base.Setup();
     }

@@ -13,7 +13,7 @@ public class GameMode : GenericSingleton<GameMode>
     public SignalAsset OnEnableControlsSignal;
     public SignalAsset OnDisableControlsSignal;
 
-    private List<NamedGameObject> characters;
+    protected List<NamedGameObject> characters;
     
     public void OnDestroy()
     {

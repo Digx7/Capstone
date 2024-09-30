@@ -41,7 +41,12 @@ public class RaceMode : GameMode
 
     public override void TearDown()
     {
-        // TODO: Save current location
+        
+        // Saves the players current position
+        Vector3 playerPos = characters[0].obj.transform.position;
+        SaveManager.Instance.loadedSave.TryAdd<Vector3>("PlayerPosition", playerPos);
+        SaveManager.Instance.Save();
+
         
         DespawnAllCharacters();
 
