@@ -43,7 +43,7 @@ public class RaceMode : GameMode
     {
         // TODO: Save current location
         
-        DespawnAllCharacters();
+        // DespawnAllCharacters();
 
         base.TearDown();
     }
@@ -67,8 +67,10 @@ public class RaceMode : GameMode
         // Update UI
         UI_Blackboard.Instance.TryAdd<float>("CurrentTime", currentTime);
         UI_Blackboard.Instance.TryAdd<float>("GoldTime", timeTrialDate.goldMedalTime);
-        UI_Blackboard.Instance.TryAdd<float>("SilverTime", timeTrialDate.goldMedalTime);
-        UI_Blackboard.Instance.TryAdd<float>("BronzeTime", timeTrialDate.goldMedalTime);
+        UI_Blackboard.Instance.TryAdd<float>("SilverTime", timeTrialDate.silverMedalTime);
+        UI_Blackboard.Instance.TryAdd<float>("BronzeTime", timeTrialDate.bronzeMedalTime);
+
+        UI_WidgetManager.Instance.TryLoadWidget("TimeTrial","TimeTrial");
 
         // Start Clock
         Debug.Log("Starting Stopwatch");
@@ -102,9 +104,22 @@ public class RaceMode : GameMode
 
     private void EndTimeTrial()
     {
+        TimeTrialData timeTrialDate = raceData as TimeTrialData;
+        
         // Stop Clock
         stopWatchIsGoing = false;
         playersFinalTime = currentTime;
+        UI_WidgetManager.Instance.TryUnloadWidget("TimeTrial");
+
+        int finalPosition;
+
+        if(playersFinalTime <= timeTrialDate.goldMedalTime) finalPosition = 1;
+        else if(playersFinalTime <= timeTrialDate.silverMedalTime) finalPosition = 2;
+        else if(playersFinalTime <= timeTrialDate.bronzeMedalTime) finalPosition = 3;
+        else finalPosition = 4;
+
+        UI_Blackboard.Instance.TryAdd<int>("RaceResult", finalPosition);
+        UI_WidgetManager.Instance.TryLoadWidget("EndRace","EndRace");
     }
 
     private void EndClassicRace()
@@ -129,11 +144,11 @@ public class RaceMode : GameMode
         // TODO: Show Correct Camera
     }
 
-    public void ExitRace()
-    {
-        // Switch back to FreeRoam
-        GameManager.Instance.SwitchToGameMode("FreeRoam");
-    }
+    // public void ExitRace()
+    // {
+    //     // Switch back to FreeRoam
+    //     GameManager.Instance.SwitchToGameMode("FreeRoam");
+    // }
 
     private RaceData RetrieveRaceData()
     {

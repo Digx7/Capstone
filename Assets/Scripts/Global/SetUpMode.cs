@@ -2,22 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreeRoamMode : GameMode
+public class SetUpMode : GameMode
 {
     public Vector3 playerStartLocation;
     public GameObject playerPrefab;
     
     public override void Setup()
     {
-        // SpawnCharacterAt(playerPrefab, playerStartLocation);
-
+        StartCoroutine(Load());
+        
         base.Setup();
     }
-    
+
     public override void TearDown()
     {
-        DespawnAllCharacters();
+        
         
         base.TearDown();
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(0.1f);
+        SpawnCharacterAt(playerPrefab, playerStartLocation);
+        GameManager.Instance.SwitchToGameMode("FreeRoam");
     }
 }

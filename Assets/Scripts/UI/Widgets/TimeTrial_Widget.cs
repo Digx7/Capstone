@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TimeTrial_Widget : MonoBehaviour
+public class TimeTrial_Widget : Widget
 {
     [SerializeField] private TextMeshProUGUI currentTime_TMP;
     [SerializeField] private TextMeshProUGUI goldTime_TMP;
@@ -16,14 +16,12 @@ public class TimeTrial_Widget : MonoBehaviour
     private const string silverTimeKey = "SilverTime";
     private const string bronzeTimeKey = "BronzeTime";
 
-    // TODO: need some way of reading out data from blackboard
-
     private void Start()
     {
-        UI_Blackboard.Instance.TryAdd<float>(currentTimeKey, 0.0f);
-        UI_Blackboard.Instance.TryAdd<float>(goldTimeKey, 0.0f);
-        UI_Blackboard.Instance.TryAdd<float>(silverTimeKey, 0.0f);
-        UI_Blackboard.Instance.TryAdd<float>(bronzeTimeKey, 0.0f);
+        // UI_Blackboard.Instance.TryAdd<float>(currentTimeKey, 0.0f);
+        // UI_Blackboard.Instance.TryAdd<float>(goldTimeKey, 0.0f);
+        // UI_Blackboard.Instance.TryAdd<float>(silverTimeKey, 0.0f);
+        // UI_Blackboard.Instance.TryAdd<float>(bronzeTimeKey, 0.0f);
 
         float currentTime = UI_Blackboard.Instance.TryGetValue<float>(currentTimeKey);
         float goldTime = UI_Blackboard.Instance.TryGetValue<float>(goldTimeKey);
