@@ -43,7 +43,7 @@ public class RaceMode : GameMode
     {
         // TODO: Save current location
         
-        // DespawnAllCharacters();
+        DespawnAllCharacters();
 
         base.TearDown();
     }
@@ -156,7 +156,7 @@ public class RaceMode : GameMode
 
         foreach (StartRing _startRing in allStartRings)
         {
-            if(_startRing.isRaised)
+            if(_startRing.shouldGetRaceDataFrom)
             {
                 return _startRing.GetRaceData();
             }

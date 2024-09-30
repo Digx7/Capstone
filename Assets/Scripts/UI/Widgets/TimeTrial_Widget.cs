@@ -44,6 +44,19 @@ public class TimeTrial_Widget : Widget
         bronzeTimeEntry.OnValueChanged += OnBronzeTimeUpdate;
     }
 
+    private void OnDestroy()
+    {
+        GenericBlackboardElement<float> currentTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(currentTimeKey);
+        GenericBlackboardElement<float> goldTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(goldTimeKey);
+        GenericBlackboardElement<float> silverTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(silverTimeKey);
+        GenericBlackboardElement<float> bronzeTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(bronzeTimeKey);
+
+        currentTimeEntry.OnValueChanged -= OnCurrentTimeUpdate;
+        goldTimeEntry.OnValueChanged -= OnGoldTimeUpdate;
+        silverTimeEntry.OnValueChanged -= OnSilverTimeUpdate;
+        bronzeTimeEntry.OnValueChanged -= OnBronzeTimeUpdate;
+    }
+
     public void OnCurrentTimeUpdate(object? sender, CustomArgs<float> arg)
     {
         SetCurrentTime(arg.Data);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TimeTrial_SouthToNorthGate
   m_EditorClassIdentifier: 
   startingLocation: 1
-  endingLoaction: 0
+  endingLoaction: NorthGate
   difficulty: 1
   goldMedalTime: 0.5
   silverMedalTime: 0.75

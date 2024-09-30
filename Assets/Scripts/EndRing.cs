@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EndRing : MonoBehaviour
 {
-    [SerializeField] private int ID;
+    [SerializeField] private string ID;
 
     [SerializeField] private bool isActiveFinishLine;
 

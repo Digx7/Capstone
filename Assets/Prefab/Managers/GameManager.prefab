@@ -49,8 +49,6 @@ MonoBehaviour:
     obj: {fileID: 3739072733793043968, guid: f419e041f20bb9e4f9623a71d677f336, type: 3}
   - name: Race
     obj: {fileID: 3820876596146998561, guid: 66c7cd3475672cd40bd543d1893d293e, type: 3}
-  - name: Setup
-    obj: {fileID: 4848123274226842248, guid: 723673d949e22154daaec64ca809f1db, type: 3}
   OnSwitchGameMode:
     m_PersistentCalls:
       m_Calls: []

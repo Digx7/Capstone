@@ -5,6 +5,6 @@ using UnityEngine;
 public class RaceData : ScriptableObject
 {
     public int startingLocation;
-    public int endingLoaction;
+    public string endingLoaction;
     public int difficulty;
 }

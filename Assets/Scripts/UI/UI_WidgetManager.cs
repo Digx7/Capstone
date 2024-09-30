@@ -53,7 +53,7 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
     {
         if(!allLoadedWidgets_Dict.ContainsKey(keyToUnload))
         {
-            Debug.LogError("UI_WidgetManager tried to unload from a key (" + keyToUnload + ") that does not exist.  Double check the spelling of all keys involved");
+            Debug.LogWarning("UI_WidgetManager tried to unload from a key (" + keyToUnload + ") that does not exist.  Double check the spelling of all keys involved");
             return false;
         }
 

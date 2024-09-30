@@ -56,6 +56,22 @@ public class PlayerController : GameController
 
     public void OnUseItem(InputAction.CallbackContext context)
     {
-        UseItem();
+        if(context.started)
+        {
+           UseItem(); 
+        }
+    }
+
+    public void StartRace(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            GameMode currentGameMode = GameMode.Instance;
+            if(currentGameMode is FreeRoamMode)
+            {
+                FreeRoamMode freeRoamMode = currentGameMode as FreeRoamMode;
+                freeRoamMode.TryToStartRace();
+            }
+        }
     }
 }

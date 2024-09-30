@@ -80,6 +80,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StartRace"",
+                    ""type"": ""Button"",
+                    ""id"": ""18452a1a-946d-499e-bd9b-ed6afc84e37b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""872b7cd7-aabc-46b0-a3af-92e6b551a86a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""StartRace"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00195d57-30df-4912-8afb-3acb297c8c96"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartRace"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -344,6 +375,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Racing_Drift = m_Racing.FindAction("Drift", throwIfNotFound: true);
         m_Racing_UseItem = m_Racing.FindAction("UseItem", throwIfNotFound: true);
         m_Racing_Look = m_Racing.FindAction("Look", throwIfNotFound: true);
+        m_Racing_StartRace = m_Racing.FindAction("StartRace", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -411,6 +443,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Racing_Drift;
     private readonly InputAction m_Racing_UseItem;
     private readonly InputAction m_Racing_Look;
+    private readonly InputAction m_Racing_StartRace;
     public struct RacingActions
     {
         private @PlayerActions m_Wrapper;
@@ -421,6 +454,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Racing_Drift;
         public InputAction @UseItem => m_Wrapper.m_Racing_UseItem;
         public InputAction @Look => m_Wrapper.m_Racing_Look;
+        public InputAction @StartRace => m_Wrapper.m_Racing_StartRace;
         public InputActionMap Get() { return m_Wrapper.m_Racing; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -448,6 +482,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @StartRace.started += instance.OnStartRace;
+            @StartRace.performed += instance.OnStartRace;
+            @StartRace.canceled += instance.OnStartRace;
         }
 
         private void UnregisterCallbacks(IRacingActions instance)
@@ -470,6 +507,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @StartRace.started -= instance.OnStartRace;
+            @StartRace.performed -= instance.OnStartRace;
+            @StartRace.canceled -= instance.OnStartRace;
         }
 
         public void RemoveCallbacks(IRacingActions instance)
@@ -513,5 +553,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnStartRace(InputAction.CallbackContext context);
     }
 }
