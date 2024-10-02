@@ -13,7 +13,11 @@ public class GameMode : GenericSingleton<GameMode>
     public SignalAsset OnEnableControlsSignal;
     public SignalAsset OnDisableControlsSignal;
 
-    protected List<NamedGameObject> characters;
+    public GameObject playerCharacterPrefab;
+    public GameObject playerControllerPrefab;
+    public GameObject playerCameraPrefab;
+
+    protected List<NamedPlayerObject> characters;
     
     public void OnDestroy()
     {
@@ -23,7 +27,7 @@ public class GameMode : GenericSingleton<GameMode>
     public override void Awake()
     {
         base.Awake();
-        characters = new List<NamedGameObject>();
+        characters = new List<NamedPlayerObject>();
     }
 
     private void Start()
@@ -51,48 +55,68 @@ public class GameMode : GenericSingleton<GameMode>
 
     protected virtual void EnableAllControls()
     {
-        foreach (NamedGameObject _character in characters)
+        Debug.Log("Enable All Controls");
+        
+        foreach (NamedPlayerObject _character in characters)
         {
-            _character.obj.GetComponentInChildren<GameController>().SetEnabled(true);
+            Debug.Log("Enable All Controls | characters count: " + characters.Count);
+            _character.controller.GetComponent<GameController>().SetEnabled(true);
         }
     }
 
     protected virtual void DisableAllControls()
     {
-        foreach (NamedGameObject _character in characters)
+        Debug.Log("Disabble All Controls");
+        
+        foreach (NamedPlayerObject _character in characters)
         {
-            _character.obj.GetComponentInChildren<GameController>().SetEnabled(false);
+            Debug.Log("Disable All Controls | characters count: " + characters.Count);
+            _character.controller.GetComponent<GameController>().SetEnabled(false);
         }
     }
 
-    protected virtual void SpawnCharacterAt(GameObject prefab)
+    protected virtual void SpawnPlayerAt()
     {
-        SpawnCharacterAt(prefab, Vector3.zero, Quaternion.identity);
+        SpawnPlayerAt(Vector3.zero, Quaternion.identity);
     }
 
-    protected virtual void SpawnCharacterAt(GameObject prefab, Vector3 location)
+    protected virtual void SpawnPlayerAt(Vector3 location)
     {
-        SpawnCharacterAt(prefab, location, Quaternion.identity);
+        SpawnPlayerAt(location, Quaternion.identity);
     }
 
-    protected virtual void SpawnCharacterAt(GameObject prefab, Vector3 location, Quaternion rotation)
+    protected virtual void SpawnPlayerAt(Vector3 location, Quaternion rotation)
     {
         // Spawns character object
-        GameObject newCharacter = Instantiate(prefab, location, rotation);
+        GameObject newCharacter = Instantiate(playerCharacterPrefab, location, rotation);
+        GameObject newCamera = Instantiate(playerCameraPrefab, location, rotation);
+        GameObject newController = Instantiate(playerControllerPrefab, location, rotation);
 
-        newCharacter.GetComponent<CharacterCameraFacade>().Intialize(SplitScreenMode.OnePlayer, 1);
+        // Setup Player
+        // Setup the Cameras
+        CarCamerasFacade carCamerasFacade = newCamera.GetComponent<CarCamerasFacade>();
+        carCamerasFacade.target = newCharacter;
+        carCamerasFacade.splitScreenMode = SplitScreenMode.OnePlayer;
+        carCamerasFacade.playerNumber = 1;
+        carCamerasFacade.Refresh();
+
+        // Setup the controler
+        newController.GetComponent<GameController>().TryToPossesCharacter(newCharacter.GetComponent<Character>());
+
+        // newCharacter.GetComponent<CharacterCameraFacade>().Intialize(SplitScreenMode.OnePlayer, 1);
 
 
         // Adds spawned character to list
-        NamedGameObject namedCharacter = new NamedGameObject(characters.Count.ToString(), newCharacter);
-        characters.Add(namedCharacter);
+        NamedPlayerObject namedPlayerObject = new NamedPlayerObject(characters.Count.ToString(), newCharacter, newCamera, newController);
+        characters.Add(namedPlayerObject);
     }
 
     protected virtual void DespawnAllCharacters()
     {
-        foreach (NamedGameObject _character in characters)
+        foreach (NamedPlayerObject _character in characters)
         {
-            Destroy(_character.obj);
+            // Destroy(_character.obj);
+            DestroyNamedPlayerObject(_character);
         }
 
         characters.Clear();
@@ -100,7 +124,15 @@ public class GameMode : GenericSingleton<GameMode>
 
     protected virtual void DespawnCharacter(string name)
     {
-        NamedGameObject characterToDestroy = Utils.FindNamedGameObjectAndRemove(name, ref characters);
-        Destroy(characterToDestroy.obj);
+        NamedPlayerObject characterToDestroy = Utils.FindNamedPlayerObjectAndRemove(name, ref characters);
+        // Destroy(characterToDestroy.obj);
+        DestroyNamedPlayerObject(characterToDestroy);
+    }
+
+    private void DestroyNamedPlayerObject(NamedPlayerObject namedPlayerObject)
+    {
+        Destroy(namedPlayerObject.vehical);
+        Destroy(namedPlayerObject.controller);
+        Destroy(namedPlayerObject.camera);
     }
 }

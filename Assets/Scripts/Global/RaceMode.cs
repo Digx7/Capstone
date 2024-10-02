@@ -27,23 +27,20 @@ public class RaceMode : GameMode
         signalReceiver.GetReaction(OnRaceStartSignal).AddListener(StartRace);
 
         // TODO: Somehow get playerStartLocation from raceData
-        SpawnCharacterAt(playerPrefab, playerStartLocation);
+        SpawnPlayerAt(playerStartLocation);
+
+        base.Setup();
 
         // Play Cutscene
         PlayableDirector playableDirector = GameObject.FindObjectOfType<PlayableDirector>();
         playableDirector.Play();
-
-        // Start Race
-
-
-        base.Setup();
     }
 
     public override void TearDown()
     {
         
         // Saves the players current position
-        Vector3 playerPos = characters[0].obj.transform.position;
+        Vector3 playerPos = characters[0].vehical.transform.position;
         SaveManager.Instance.loadedSave.TryAdd<Vector3>("PlayerPosition", playerPos);
         SaveManager.Instance.Save();
 

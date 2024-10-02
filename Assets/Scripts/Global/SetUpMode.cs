@@ -24,7 +24,7 @@ public class SetUpMode : GameMode
     private IEnumerator Load()
     {
         yield return new WaitForSeconds(0.1f);
-        SpawnCharacterAt(playerPrefab, playerStartLocation);
+        SpawnPlayerAt(playerStartLocation);
         GameManager.Instance.SwitchToGameMode("FreeRoam");
     }
 }

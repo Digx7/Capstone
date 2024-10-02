@@ -20,6 +20,23 @@ public struct NamedGameObject
 }
 
 [System.Serializable]
+public struct NamedPlayerObject
+{
+    public string name;
+    public GameObject vehical;
+    public GameObject camera;
+    public GameObject controller;
+
+    public NamedPlayerObject(string _name = "", GameObject _vehical = null, GameObject _camera = null, GameObject _controller = null)
+    {
+        name = _name;
+        vehical = _vehical;
+        camera = _camera;
+        controller = _controller;
+    }
+}
+
+[System.Serializable]
 public struct Wave
 {
     public float direction_x;

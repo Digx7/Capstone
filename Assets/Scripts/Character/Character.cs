@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float timeBetweenBoostCharges;
     [SerializeField] private int maxNumberOfBoostLevelsPerDrift;
 
-    public void Start()
+    public void Awake()
     {
         LoadVehicles();
         LoadCharacter();

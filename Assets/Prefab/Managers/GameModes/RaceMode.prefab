@@ -54,6 +54,12 @@ MonoBehaviour:
     type: 2}
   OnDisableControlsSignal: {fileID: 11400000, guid: cfdd6fc93b6c726409afcaaff90552a2,
     type: 2}
+  playerCharacterPrefab: {fileID: 1869516739265611830, guid: 1f282ce0ad4e4d14d998d497e3c66915,
+    type: 3}
+  playerControllerPrefab: {fileID: 5877637483432104707, guid: e99fb0e2d244b6e4b8c586e96ab827b1,
+    type: 3}
+  playerCameraPrefab: {fileID: 461390675403229095, guid: 2d4eba0f97f111844acfaf3c25031874,
+    type: 3}
   raceData: {fileID: 0}
   playerStartLocation: {x: 15, y: 12, z: -58}
   playerPrefab: {fileID: 2134331569741906326, guid: 04ab83c886cf602409973c369b008f8e,

@@ -14,7 +14,7 @@ public class FreeRoamMode : GameMode
     {
         Vector3 pos = SaveManager.Instance.loadedSave.TryGetValue<Vector3>("PlayerPosition");
         
-        SpawnCharacterAt(playerPrefab, pos);
+        SpawnPlayerAt(pos);
 
         base.Setup();
     }

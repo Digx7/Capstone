@@ -19,6 +19,21 @@ public static class Utils
         return nullNamedGameObject;
     }
 
+    public static NamedPlayerObject FindNamedPlayerObjectByName(string name, 
+                                                            ref List<NamedPlayerObject> namedPlayerObjects)
+    {
+        for (int i = 0; i < namedPlayerObjects.Count; i++)
+        {
+            if(namedPlayerObjects[i].name == name) 
+            {
+                return namedPlayerObjects[i];
+            }
+        }
+
+        NamedPlayerObject nullNamedPlayerObject = new NamedPlayerObject();
+        return nullNamedPlayerObject;
+    }
+
     public static NamedGameObject FindNamedGameObjectAndRemove(string name, 
                                                                 ref List<NamedGameObject> namedGameObjects)
     {
@@ -30,6 +45,23 @@ public static class Utils
             {
                 objToReturn = namedGameObjects[i];
                 namedGameObjects.RemoveAt(i);
+            }
+        }
+        
+        return objToReturn;
+    }
+
+    public static NamedPlayerObject FindNamedPlayerObjectAndRemove(string name, 
+                                                                ref List<NamedPlayerObject> namedPlayerObjects)
+    {
+        NamedPlayerObject objToReturn = new NamedPlayerObject();
+        
+        for (int i = 0; i < namedPlayerObjects.Count; i++)
+        {
+            if(namedPlayerObjects[i].name == name) 
+            {
+                objToReturn = namedPlayerObjects[i];
+                namedPlayerObjects.RemoveAt(i);
             }
         }
         
