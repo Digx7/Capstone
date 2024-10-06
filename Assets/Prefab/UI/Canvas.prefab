@@ -125,3 +125,6 @@ MonoBehaviour:
   - key: RaceInfo
     prefab: {fileID: 6614383559522056272, guid: 3f627c48d73f8324999745e57d5fcd51,
       type: 3}
+  - key: MiniMap
+    prefab: {fileID: 2243205667313564557, guid: 4d77eef76d208164c8e57152dc54be0b,
+      type: 3}

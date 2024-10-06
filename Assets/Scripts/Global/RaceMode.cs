@@ -73,6 +73,7 @@ public class RaceMode : GameMode
         UI_Blackboard.Instance.TryAdd<float>("BronzeTime", timeTrialDate.bronzeMedalTime);
 
         UI_WidgetManager.Instance.TryLoadWidget("TimeTrial","TimeTrial");
+        UI_WidgetManager.Instance.TryLoadWidget("MiniMap","MiniMap");
 
         // Start Clock
         Debug.Log("Starting Stopwatch");
@@ -112,6 +113,7 @@ public class RaceMode : GameMode
         stopWatchIsGoing = false;
         playersFinalTime = currentTime;
         UI_WidgetManager.Instance.TryUnloadWidget("TimeTrial");
+        UI_WidgetManager.Instance.TryUnloadWidget("MiniMap");
 
         int finalPosition;
 

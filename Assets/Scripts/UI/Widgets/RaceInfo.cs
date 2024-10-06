@@ -6,33 +6,33 @@ using TMPro;
 public class RaceInfo : Widget
 {
     public TextMeshProUGUI raceTypeUI;
-    public TextMeshProUGUI finishDesitinationUI;
+    // public TextMeshProUGUI finishDesitinationUI;
 
     private const string raceTypeKey = "RaceType";
-    private const string finishDestinationKey = "FinishDestination";
+    // private const string finishDestinationKey = "FinishDestination";
 
     public void Start()
     {
         string raceType = UI_Blackboard.Instance.TryGetValue<string>(raceTypeKey);
-        string finishDestination = UI_Blackboard.Instance.TryGetValue<string>(finishDestinationKey);
+        // string finishDestination = UI_Blackboard.Instance.TryGetValue<string>(finishDestinationKey);
 
         SetRaceType(raceType);
-        SetFinishDesintation(finishDestination);
+        // SetFinishDesintation(finishDestination);
 
         GenericBlackboardElement<string> raceTypeEntry = UI_Blackboard.Instance.TryGetEntry<string>(raceTypeKey);
-        GenericBlackboardElement<string> finishDestinationEntry = UI_Blackboard.Instance.TryGetEntry<string>(finishDestinationKey);
+        // GenericBlackboardElement<string> finishDestinationEntry = UI_Blackboard.Instance.TryGetEntry<string>(finishDestinationKey);
 
         raceTypeEntry.OnValueChanged += OnRaceTypeUpdated;
-        finishDestinationEntry.OnValueChanged += OnFinishDestinationUpdated;
+        // finishDestinationEntry.OnValueChanged += OnFinishDestinationUpdated;
     }
 
     private void OnDestroy()
     {
         GenericBlackboardElement<string> raceTypeEntry = UI_Blackboard.Instance.TryGetEntry<string>(raceTypeKey);
-        GenericBlackboardElement<string> finishDestinationEntry = UI_Blackboard.Instance.TryGetEntry<string>(finishDestinationKey);
+        // GenericBlackboardElement<string> finishDestinationEntry = UI_Blackboard.Instance.TryGetEntry<string>(finishDestinationKey);
 
         raceTypeEntry.OnValueChanged -= OnRaceTypeUpdated;
-        finishDestinationEntry.OnValueChanged -= OnFinishDestinationUpdated;
+        // finishDestinationEntry.OnValueChanged -= OnFinishDestinationUpdated;
     }
 
     public void OnRaceTypeUpdated(object? sender, CustomArgs<string> arg)
@@ -52,6 +52,6 @@ public class RaceInfo : Widget
 
     private void SetFinishDesintation(string _finishDesination)
     {
-        finishDesitinationUI.text = _finishDesination;
+        // finishDesitinationUI.text = _finishDesination;
     }
 }

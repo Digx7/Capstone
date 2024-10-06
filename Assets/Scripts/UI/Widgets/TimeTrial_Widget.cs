@@ -8,13 +8,13 @@ public class TimeTrial_Widget : Widget
 {
     [SerializeField] private TextMeshProUGUI currentTime_TMP;
     [SerializeField] private TextMeshProUGUI goldTime_TMP;
-    [SerializeField] private TextMeshProUGUI silverTime_TMP;
-    [SerializeField] private TextMeshProUGUI bronzeTime_TMP;
+    // [SerializeField] private TextMeshProUGUI silverTime_TMP;
+    // [SerializeField] private TextMeshProUGUI bronzeTime_TMP;
 
     private const string currentTimeKey = "CurrentTime";
     private const string goldTimeKey = "GoldTime";
-    private const string silverTimeKey = "SilverTime";
-    private const string bronzeTimeKey = "BronzeTime";
+    // private const string silverTimeKey = "SilverTime";
+    // private const string bronzeTimeKey = "BronzeTime";
 
     private void Start()
     {
@@ -25,36 +25,36 @@ public class TimeTrial_Widget : Widget
 
         float currentTime = UI_Blackboard.Instance.TryGetValue<float>(currentTimeKey);
         float goldTime = UI_Blackboard.Instance.TryGetValue<float>(goldTimeKey);
-        float silverTime = UI_Blackboard.Instance.TryGetValue<float>(silverTimeKey);
-        float bronzeTime = UI_Blackboard.Instance.TryGetValue<float>(bronzeTimeKey);
+        // float silverTime = UI_Blackboard.Instance.TryGetValue<float>(silverTimeKey);
+        // float bronzeTime = UI_Blackboard.Instance.TryGetValue<float>(bronzeTimeKey);
 
         SetCurrentTime(currentTime);
         SetGoldTime(goldTime);
-        SetSilverTime(silverTime);
-        SetBronzeTime(bronzeTime);
+        // SetSilverTime(silverTime);
+        // SetBronzeTime(bronzeTime);
 
         GenericBlackboardElement<float> currentTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(currentTimeKey);
         GenericBlackboardElement<float> goldTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(goldTimeKey);
-        GenericBlackboardElement<float> silverTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(silverTimeKey);
-        GenericBlackboardElement<float> bronzeTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(bronzeTimeKey);
+        // GenericBlackboardElement<float> silverTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(silverTimeKey);
+        // GenericBlackboardElement<float> bronzeTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(bronzeTimeKey);
 
         currentTimeEntry.OnValueChanged += OnCurrentTimeUpdate;
         goldTimeEntry.OnValueChanged += OnGoldTimeUpdate;
-        silverTimeEntry.OnValueChanged += OnSilverTimeUpdate;
-        bronzeTimeEntry.OnValueChanged += OnBronzeTimeUpdate;
+        // silverTimeEntry.OnValueChanged += OnSilverTimeUpdate;
+        // bronzeTimeEntry.OnValueChanged += OnBronzeTimeUpdate;
     }
 
     private void OnDestroy()
     {
         GenericBlackboardElement<float> currentTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(currentTimeKey);
         GenericBlackboardElement<float> goldTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(goldTimeKey);
-        GenericBlackboardElement<float> silverTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(silverTimeKey);
-        GenericBlackboardElement<float> bronzeTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(bronzeTimeKey);
+        // GenericBlackboardElement<float> silverTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(silverTimeKey);
+        // GenericBlackboardElement<float> bronzeTimeEntry = UI_Blackboard.Instance.TryGetEntry<float>(bronzeTimeKey);
 
         currentTimeEntry.OnValueChanged -= OnCurrentTimeUpdate;
         goldTimeEntry.OnValueChanged -= OnGoldTimeUpdate;
-        silverTimeEntry.OnValueChanged -= OnSilverTimeUpdate;
-        bronzeTimeEntry.OnValueChanged -= OnBronzeTimeUpdate;
+        // silverTimeEntry.OnValueChanged -= OnSilverTimeUpdate;
+        // bronzeTimeEntry.OnValueChanged -= OnBronzeTimeUpdate;
     }
 
     public void OnCurrentTimeUpdate(object? sender, CustomArgs<float> arg)
@@ -89,12 +89,12 @@ public class TimeTrial_Widget : Widget
 
     private void SetSilverTime(float newTime)
     {
-        silverTime_TMP.text = FloatToTime(newTime);
+        // silverTime_TMP.text = FloatToTime(newTime);
     }
 
     private void SetBronzeTime(float newTime)
     {
-        bronzeTime_TMP.text = FloatToTime(newTime);
+        // bronzeTime_TMP.text = FloatToTime(newTime);
     }
 
     private string FloatToTime(float value)
@@ -106,7 +106,8 @@ public class TimeTrial_Widget : Widget
 
         TimeSpan timeSpan = TimeSpan.FromSeconds(value);
 
-        string output = timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00") + ":" + timeSpan.Milliseconds.ToString("00");
+        // string output = timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00") + ":" + timeSpan.Milliseconds.ToString("00");
+        string output = timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
 
         return output;
     }

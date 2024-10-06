@@ -13,6 +13,7 @@ public class FreeRoamMode : GameMode
     public override void Setup()
     {
         Vector3 pos = SaveManager.Instance.loadedSave.TryGetValue<Vector3>("PlayerPosition");
+        UI_WidgetManager.Instance.TryLoadWidget("MiniMap","MiniMap");
         
         SpawnPlayerAt(pos);
 
@@ -22,6 +23,8 @@ public class FreeRoamMode : GameMode
     public override void TearDown()
     {
         DespawnAllCharacters();
+
+        UI_WidgetManager.Instance.TryUnloadWidget("MiniMap");
         
         base.TearDown();
     }
