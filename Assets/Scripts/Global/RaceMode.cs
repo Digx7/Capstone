@@ -3,37 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.Rendering.Universal;
 
 
 public class RaceMode : GameMode
 {
     public RaceData raceData;
-    public Vector3 playerStartLocation;
+    private Vector3 playerStartLocation;
     public GameObject playerPrefab;
     public SignalAsset OnRaceStartSignal;
+    public GameObject baseCamera;
 
     // Timetrial variables
     private bool stopWatchIsGoing = false;
     private float currentTime = 0.0f;
     private float playersFinalTime = 0.0f;
     
+    private List<GameObject> tempCharacters;
+
+    private GameObject introBaseCameraObject;
+    private GameObject introFacadeObject;
+
     public override void Setup()
     {
         // Read Race data and load relevant info
         raceData = RetrieveRaceData();
+        playerStartLocation = raceData.startingLocation;
 
-        // Add hooks into Timeline
-        SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
-        signalReceiver.GetReaction(OnRaceStartSignal).AddListener(StartRace);
+        // Spawn Character
+        tempCharacters = new List<GameObject>();
+        tempCharacters.Add(SpawnCharacterOnlyAt(playerStartLocation));
 
-        // TODO: Somehow get playerStartLocation from raceData
-        SpawnPlayerAt(playerStartLocation);
+        // Spawn base camera
+        introBaseCameraObject = Instantiate(baseCamera, playerStartLocation, Quaternion.identity);
+        Camera camera = introBaseCameraObject.GetComponentInChildren<Camera>();
 
         base.Setup();
 
-        // Play Cutscene
-        PlayableDirector playableDirector = GameObject.FindObjectOfType<PlayableDirector>();
-        playableDirector.Play();
+        // Load race intro
+        introFacadeObject = Instantiate(raceData.intro);
+        RaceIntro_Facade raceIntro_Facade = introFacadeObject.GetComponent<RaceIntro_Facade>();
+
+        // Setup overlay camera
+        Camera overlayCamera = raceIntro_Facade.IntroCamera;
+        var cameraData = camera.GetUniversalAdditionalCameraData();
+        cameraData.cameraStack.Add(overlayCamera);
+
+        // Setup signal reciever
+        SignalReceiver signalReciever = raceIntro_Facade.MainSignalReciever;
+        signalReciever.GetReaction(OnRaceStartSignal).AddListener(StartRace);
+
+        // Play race intro
+        raceIntro_Facade.PlayIntro();
     }
 
     public override void TearDown()
@@ -52,6 +73,22 @@ public class RaceMode : GameMode
 
     public void StartRace()
     {
+        foreach (GameObject character in tempCharacters)
+        {
+            GameObject controller = SpawnControllerOnlyAt(playerStartLocation);
+            GameObject cameras = SpawnCameraOnlyAt(playerStartLocation);
+
+            SetupController(controller, character);
+            SetupCamera(cameras, character);
+
+            RegisterCharacter(character, cameras, controller);
+        }
+
+        Destroy(introBaseCameraObject);
+        Destroy(introFacadeObject);
+
+        tempCharacters.Clear();
+        
         if(raceData is TimeTrialData)
         {
             StartTimeTrial();

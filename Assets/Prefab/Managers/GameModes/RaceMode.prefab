@@ -65,3 +65,5 @@ MonoBehaviour:
   playerPrefab: {fileID: 2134331569741906326, guid: 04ab83c886cf602409973c369b008f8e,
     type: 3}
   OnRaceStartSignal: {fileID: 11400000, guid: 72490e22e343d6f4c893ed9edadab898, type: 2}
+  baseCamera: {fileID: 6585702540471622495, guid: a484783426570424397aafa37cc3e4f1,
+    type: 3}

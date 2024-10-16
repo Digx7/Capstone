@@ -6,6 +6,7 @@ public class StartRing : MonoBehaviour
 {
     [SerializeField] private int ID;
     [SerializeField] private RaceData raceData;
+    [SerializeField] private GameObject playerStart;
 
     public bool shouldGetRaceDataFrom {get; private set;} = false;
 
@@ -15,7 +16,7 @@ public class StartRing : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnSwitchGameMode.AddListener(OnSwitchGameMode);
-        // OnSwitchGameMode();
+        raceData.startingLocation = playerStart.transform.position;
     }
 
     public RaceData GetRaceData()

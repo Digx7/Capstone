@@ -87,27 +87,104 @@ public class GameMode : GenericSingleton<GameMode>
 
     protected virtual void SpawnPlayerAt(Vector3 location, Quaternion rotation)
     {
+        // // Spawns character object
+        // GameObject newCharacter = Instantiate(playerCharacterPrefab, location, rotation);
+        // GameObject newCamera = Instantiate(playerCameraPrefab, location, rotation);
+        // GameObject newController = Instantiate(playerControllerPrefab, location, rotation);
+
+        // // Setup Player
+        // // Setup the Cameras
+        // CarCamerasFacade carCamerasFacade = newCamera.GetComponent<CarCamerasFacade>();
+        // carCamerasFacade.target = newCharacter;
+        // carCamerasFacade.splitScreenMode = SplitScreenMode.OnePlayer;
+        // carCamerasFacade.playerNumber = 1;
+        // carCamerasFacade.Refresh();
+
+        // // Setup the controler
+        // newController.GetComponent<GameController>().TryToPossesCharacter(newCharacter.GetComponent<Character>());
+
+
+        // // Adds spawned character to list
+        // NamedPlayerObject namedPlayerObject = new NamedPlayerObject(characters.Count.ToString(), newCharacter, newCamera, newController);
+        // characters.Add(namedPlayerObject);
+        
+        GameObject newCharacter = SpawnCharacterOnlyAt(location, rotation);
+        GameObject newCamera = SpawnCameraOnlyAt(location, rotation);
+        GameObject newController = SpawnControllerOnlyAt(location, rotation);
+
+        SetupCamera(newCamera, newCharacter);
+
+        SetupController(newController, newCharacter);
+
+        RegisterCharacter(newCharacter, newCamera, newController);
+    }
+
+    protected virtual GameObject SpawnCharacterOnlyAt()
+    {
+        return SpawnCharacterOnlyAt(Vector3.zero, Quaternion.identity);
+    }
+    
+    protected virtual GameObject SpawnCharacterOnlyAt(Vector3 location)
+    {
+        return SpawnCharacterOnlyAt(location, Quaternion.identity);
+    }
+    
+    protected virtual GameObject SpawnCharacterOnlyAt(Vector3 location, Quaternion rotation)
+    {
         // Spawns character object
         GameObject newCharacter = Instantiate(playerCharacterPrefab, location, rotation);
-        GameObject newCamera = Instantiate(playerCameraPrefab, location, rotation);
-        GameObject newController = Instantiate(playerControllerPrefab, location, rotation);
+        return newCharacter;
+    }
 
-        // Setup Player
-        // Setup the Cameras
-        CarCamerasFacade carCamerasFacade = newCamera.GetComponent<CarCamerasFacade>();
-        carCamerasFacade.target = newCharacter;
+    protected virtual GameObject SpawnControllerOnlyAt()
+    {
+        return SpawnControllerOnlyAt(Vector3.zero, Quaternion.identity);
+    }
+
+    protected virtual GameObject SpawnControllerOnlyAt(Vector3 location)
+    {
+        return SpawnControllerOnlyAt(location, Quaternion.identity);
+    }
+
+    protected virtual GameObject SpawnControllerOnlyAt(Vector3 location, Quaternion rotation)
+    {
+        GameObject newController = Instantiate(playerControllerPrefab, location, rotation);
+        return newController;
+    }
+
+    protected virtual void SetupController(GameObject controller, GameObject character)
+    {
+        controller.GetComponent<GameController>().TryToPossesCharacter(character.GetComponent<Character>());
+    }
+
+    protected virtual GameObject SpawnCameraOnlyAt()
+    {
+        return SpawnCameraOnlyAt(Vector3.zero, Quaternion.identity);
+    }
+    
+    protected virtual GameObject SpawnCameraOnlyAt(Vector3 location)
+    {
+        return SpawnCameraOnlyAt(location, Quaternion.identity);
+    }
+    
+    protected virtual GameObject SpawnCameraOnlyAt(Vector3 location, Quaternion rotation)
+    {
+        GameObject newCamera = Instantiate(playerCameraPrefab, location, rotation);
+        return newCamera;
+    }
+
+    protected virtual void SetupCamera(GameObject camera, GameObject character)
+    {
+        CarCamerasFacade carCamerasFacade = camera.GetComponent<CarCamerasFacade>();
+        carCamerasFacade.target = character;
         carCamerasFacade.splitScreenMode = SplitScreenMode.OnePlayer;
         carCamerasFacade.playerNumber = 1;
         carCamerasFacade.Refresh();
+    }
 
-        // Setup the controler
-        newController.GetComponent<GameController>().TryToPossesCharacter(newCharacter.GetComponent<Character>());
-
-        // newCharacter.GetComponent<CharacterCameraFacade>().Intialize(SplitScreenMode.OnePlayer, 1);
-
-
-        // Adds spawned character to list
-        NamedPlayerObject namedPlayerObject = new NamedPlayerObject(characters.Count.ToString(), newCharacter, newCamera, newController);
+    protected virtual void RegisterCharacter(GameObject character, GameObject camera, GameObject controller)
+    {
+        NamedPlayerObject namedPlayerObject = new NamedPlayerObject(characters.Count.ToString(), character, camera, controller);
         characters.Add(namedPlayerObject);
     }
 

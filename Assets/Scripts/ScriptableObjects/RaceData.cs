@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RaceData : ScriptableObject
 {
-    public int startingLocation;
+    public Vector3 startingLocation;
     public string endingLoaction;
     public int difficulty;
+    public GameObject intro;
 }
