@@ -80,8 +80,13 @@ public class SaveManager : GenericSingleton<SaveManager>
 
     private void MakeEmptySave()
     {
-        Vector3 playerPos = new Vector3(12, 10, -58);
-        loadedSave.TryAdd<Vector3>("PlayerPosition", playerPos);
+        GameObject playerSpawnPoint = GameObject.Find("PlayerSpawnPoint");
+        Vector3 playerStartingPosition;
+
+        if(playerSpawnPoint != null) playerStartingPosition = playerSpawnPoint.transform.position;
+        else playerStartingPosition = Vector3.zero;
+        
+        loadedSave.TryAdd<Vector3>("PlayerPosition", playerStartingPosition);
 
         Save();
     }

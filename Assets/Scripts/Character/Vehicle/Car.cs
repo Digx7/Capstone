@@ -148,13 +148,14 @@ public class Car : Vehicle
 
         if(driftDirection == DriftDirection.Right)
         {
-            currentEulerAngles.y = 15;
+            currentEulerAngles.y = 45;
             visual.transform.localEulerAngles = currentEulerAngles;
         }
         else
         {
-            currentEulerAngles.y = -15;
+            currentEulerAngles.y = -45;
             visual.transform.localEulerAngles = currentEulerAngles;
+            // Rerender
         }
     }
 

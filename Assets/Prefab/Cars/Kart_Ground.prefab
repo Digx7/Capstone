@@ -5494,8 +5494,8 @@ MonoBehaviour:
   mass: 20
   drag: 0.1
   driveTrainType: 0
-  motorForce: 100000
-  maxVelocity: 30
+  motorForce: 1000000
+  maxVelocity: 600
   motorCurve:
     serializedVersion: 2
     m_Curve:

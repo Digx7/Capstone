@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc64add28e256c54cb35747c6f29ca7c, type: 3}
   m_Name: TimeTrial_WestGateRace
   m_EditorClassIdentifier: 
-  startingLocation: 0
+  startingLocation: {x: 0, y: 0, z: 0}
   endingLoaction: WestGate
   difficulty: 1
   intro: {fileID: 2920721931232570615, guid: 2faa0e23eb9ae2446a1c7cbb3f559313, type: 3}
-  goldMedalTime: 2
-  silverMedalTime: 3
-  bronzeMedalTime: 4
+  goldMedalTime: 10
+  silverMedalTime: 15
+  bronzeMedalTime: 20

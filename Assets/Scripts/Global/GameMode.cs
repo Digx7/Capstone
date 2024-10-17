@@ -37,18 +37,18 @@ public class GameMode : GenericSingleton<GameMode>
 
     public virtual void Setup()
     {
-        SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
-        signalReceiver.GetReaction(OnEnableControlsSignal).AddListener(EnableAllControls);
-        signalReceiver.GetReaction(OnDisableControlsSignal).AddListener(DisableAllControls);
+        // SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
+        // signalReceiver.GetReaction(OnEnableControlsSignal).AddListener(EnableAllControls);
+        // signalReceiver.GetReaction(OnDisableControlsSignal).AddListener(DisableAllControls);
         
         OnSetupEnd.Invoke();
     }
 
     public virtual void TearDown()
     {
-        SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
-        signalReceiver.GetReaction(OnEnableControlsSignal).RemoveListener(EnableAllControls);
-        signalReceiver.GetReaction(OnDisableControlsSignal).RemoveListener(DisableAllControls);
+        // SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
+        // signalReceiver.GetReaction(OnEnableControlsSignal).RemoveListener(EnableAllControls);
+        // signalReceiver.GetReaction(OnDisableControlsSignal).RemoveListener(DisableAllControls);
 
         OnTearDownEnd.Invoke();
     }
