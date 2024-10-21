@@ -128,3 +128,15 @@ MonoBehaviour:
   - key: MiniMap
     prefab: {fileID: 2243205667313564557, guid: 4d77eef76d208164c8e57152dc54be0b,
       type: 3}
+  - key: TitleCard
+    prefab: {fileID: 5572579172857710771, guid: c3f3838622106fc4aa178dff586a6bbe,
+      type: 3}
+  - key: MainMenu
+    prefab: {fileID: 8226334479443713828, guid: b7c4bf97a06545940a50ece2044fb978,
+      type: 3}
+  - key: SettingsMenu
+    prefab: {fileID: 3604374405922880557, guid: 90d70a2824a187b4f9a02805949cb9b4,
+      type: 3}
+  - key: QuitConfirmation
+    prefab: {fileID: 5292945566563500043, guid: eea388df493cdc3409d318e0d6a89bdb,
+      type: 3}

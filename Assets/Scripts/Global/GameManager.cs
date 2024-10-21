@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class GameManager : GenericSingleton<GameManager>
 {
+    // [SerializeField] private int gameModeToStartOnAwake = 0;
     public List<NamedGameObject> gameModes;
 
     public UnityEvent OnSwitchGameMode;
@@ -30,7 +31,7 @@ public class GameManager : GenericSingleton<GameManager>
 
     public void Start()
     {
-        StartCoroutine(LoadGameMode(gameModes[0]));
+        // StartCoroutine(LoadGameMode(gameModes[0]));
     }
 
     public void SwitchToGameMode(string gameModeName)
@@ -46,6 +47,19 @@ public class GameManager : GenericSingleton<GameManager>
         StartCoroutine(SwapGameModes(newGameMode));
     }
     
+    public void ForceLoadGameMode(string gameModeName)
+    {
+        NamedGameObject newGameMode = Utils.FindNamedGameObjectByName(gameModeName, ref gameModes);
+        
+        if(newGameMode.name == "")
+        {
+            Debug.LogError("Attempted to load GameMode " + gameModeName + " but it does not exist on the GameManager");
+            return;
+        }
+        
+        StartCoroutine(LoadGameMode(newGameMode));
+    }
+
     public void OnGameModeSetupFinish() => GameModeSetupDone = true;
     public void OnGameModeTearDownFinish() => GameModeTearDownDone = true;
 
@@ -55,9 +69,12 @@ public class GameManager : GenericSingleton<GameManager>
         
         isSwapingGameModes = true;
 
-        StartCoroutine(UnloadCurrentGameMode());
-        yield return new WaitUntil(() => UnloadedGameMode = true);
-        UnloadedGameMode = false;
+        if(!GameMode.IsInstanceNull())
+        {
+            StartCoroutine(UnloadCurrentGameMode());
+            yield return new WaitUntil(() => UnloadedGameMode = true);
+            UnloadedGameMode = false;
+        }
 
         StartCoroutine(LoadGameMode(newGameMode));
         yield return new WaitUntil(() => LoadedGameMode = true);

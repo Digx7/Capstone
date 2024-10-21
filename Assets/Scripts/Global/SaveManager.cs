@@ -84,7 +84,7 @@ public class SaveManager : GenericSingleton<SaveManager>
         Vector3 playerStartingPosition;
 
         if(playerSpawnPoint != null) playerStartingPosition = playerSpawnPoint.transform.position;
-        else playerStartingPosition = Vector3.zero;
+        else playerStartingPosition = new Vector3 (-38.84f, 3.22f, -6.5f);
         
         loadedSave.TryAdd<Vector3>("PlayerPosition", playerStartingPosition);
 
