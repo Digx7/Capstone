@@ -137,6 +137,12 @@ MonoBehaviour:
   - key: SettingsMenu
     prefab: {fileID: 3604374405922880557, guid: 90d70a2824a187b4f9a02805949cb9b4,
       type: 3}
-  - key: QuitConfirmation
+  - key: QuitGameConfirmation
     prefab: {fileID: 5292945566563500043, guid: eea388df493cdc3409d318e0d6a89bdb,
+      type: 3}
+  - key: PauseMenu
+    prefab: {fileID: 1510159318809456730, guid: 065c75c5c83151841a9cc1e5dbe6a1b2,
+      type: 3}
+  - key: QuitToMainMenuConfirmation
+    prefab: {fileID: 2236114633380741473, guid: b1f9bd420fbd4e9499a61eacdfdc6cbe,
       type: 3}

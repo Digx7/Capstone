@@ -45,6 +45,42 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
 
         loaded.transform.SetParent(canvas.transform, false);
 
+        Widget widget = loaded.GetComponent<Widget>();
+        widget.SetUp();
+
+
+        return true;
+    }
+
+    public bool TryLoadWidgetWithArgs(string keyToLoadFrom, string keyToLoadTo, List<string> args)
+    {
+        if(!AllWidgets_Dict.ContainsKey(keyToLoadFrom))
+        {
+            Debug.LogError("UI_WidgetManager tried to load from a key (" + keyToLoadFrom + ") that does not exist.  Double check the spelling of all keys involved");
+            return false;
+        }
+
+        GameObject prefab = AllWidgets_Dict[keyToLoadFrom];
+
+        GameObject loaded = Instantiate(prefab);
+        loaded.GetComponent<Widget>().SetID(keyToLoadTo);
+
+        if(!allLoadedWidgets_Dict.TryAdd(keyToLoadTo, loaded))
+        {
+            Debug.LogError("UI_WidgetManager tried to load a new widget with a key (" + keyToLoadTo + ") that already exists.  Please use a different key instead.");
+            Destroy(loaded);
+            return false;
+        }
+
+        if(args.Count == 0) Debug.LogWarning("UI-WidgetManager is running TryLoadWidgetWithArgs with zero arguments.  Try to use TryLoadWidget instead");
+
+        loaded.transform.SetParent(canvas.transform, false);
+
+
+        Widget widget = loaded.GetComponent<Widget>();
+        widget.SetUp();
+        widget.SendArguments(args);
+
 
         return true;
     }
@@ -58,6 +94,9 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
         }
 
         GameObject loaded = allLoadedWidgets_Dict[keyToUnload];
+
+        Widget widget = loaded.GetComponent<Widget>();
+        widget.Teardown();
 
         Destroy(loaded);
 

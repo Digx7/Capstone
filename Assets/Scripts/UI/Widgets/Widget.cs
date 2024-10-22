@@ -9,5 +9,9 @@ public class Widget : MonoBehaviour
 
     public virtual void SetUp(){}
 
+    public virtual void Teardown(){}
+
     public virtual void Refresh(){}
+
+    public virtual void SendArguments(List<string> ars){}
 }

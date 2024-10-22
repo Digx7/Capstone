@@ -74,4 +74,12 @@ public class PlayerController : GameController
             }
         }
     }
+
+    public void Pause(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            UI_WidgetManager.Instance.TryLoadWidget("PauseMenu","PauseMenu");
+        }
+    }
 }

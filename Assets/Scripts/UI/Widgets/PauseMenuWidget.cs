@@ -1,26 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MainMenuWidget : Widget
+public class PauseMenuWidget : Widget
 {
-    public void OnClickPlay()
+    public void OnClickResume()
     {
+        UI_WidgetManager.Instance.TryUnloadWidget("PauseMenu");
         Cursor.visible = false;
-        SceneManager.LoadScene("TestIsland");
-        UI_WidgetManager.Instance.TryUnloadWidget("MainMenu");
     }
 
     public void OnClickSettings()
     {
         UI_WidgetManager.Instance.TryLoadWidget("SettingsMenu","SettingsMenu");
-        UI_WidgetManager.Instance.TryUnloadWidget("MainMenu");
     }
 
     public void OnClickQuit()
     {
-        UI_WidgetManager.Instance.TryLoadWidget("QuitGameConfirmation","QuitGameConfirmation");
+        UI_WidgetManager.Instance.TryLoadWidget("QuitToMainMenuConfirmation","QuitToMainMenuConfirmation");
     }
 
     public override void SetUp()

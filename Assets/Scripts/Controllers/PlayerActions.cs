@@ -89,6 +89,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""764ed43b-29ec-43c6-870d-9936cc831007"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -333,6 +342,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""StartRace"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a19ce20-a116-45ad-81d8-b0fbe8b61e60"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7142626-5375-43ad-97f9-a9c173ce70d6"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -376,6 +407,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Racing_UseItem = m_Racing.FindAction("UseItem", throwIfNotFound: true);
         m_Racing_Look = m_Racing.FindAction("Look", throwIfNotFound: true);
         m_Racing_StartRace = m_Racing.FindAction("StartRace", throwIfNotFound: true);
+        m_Racing_Pause = m_Racing.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -444,6 +476,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Racing_UseItem;
     private readonly InputAction m_Racing_Look;
     private readonly InputAction m_Racing_StartRace;
+    private readonly InputAction m_Racing_Pause;
     public struct RacingActions
     {
         private @PlayerActions m_Wrapper;
@@ -455,6 +488,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @UseItem => m_Wrapper.m_Racing_UseItem;
         public InputAction @Look => m_Wrapper.m_Racing_Look;
         public InputAction @StartRace => m_Wrapper.m_Racing_StartRace;
+        public InputAction @Pause => m_Wrapper.m_Racing_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Racing; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -485,6 +519,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @StartRace.started += instance.OnStartRace;
             @StartRace.performed += instance.OnStartRace;
             @StartRace.canceled += instance.OnStartRace;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IRacingActions instance)
@@ -510,6 +547,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @StartRace.started -= instance.OnStartRace;
             @StartRace.performed -= instance.OnStartRace;
             @StartRace.canceled -= instance.OnStartRace;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IRacingActions instance)
@@ -554,5 +594,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnUseItem(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnStartRace(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
