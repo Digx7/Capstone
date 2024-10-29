@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 7873572976963367348}
   - component: {fileID: 8571013403023418517}
   - component: {fileID: 3294461448717421225}
+  - component: {fileID: 3541932369210531998}
   m_Layer: 0
   m_Name: CinemachineBrain
   m_TagString: Untagged
@@ -341,6 +342,14 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!81 &3541932369210531998
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6847767029257042156}
+  m_Enabled: 1
 --- !u!1 &9027767462494369693
 GameObject:
   m_ObjectHideFlags: 0

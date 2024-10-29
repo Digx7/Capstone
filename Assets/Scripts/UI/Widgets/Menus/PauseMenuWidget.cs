@@ -24,4 +24,5 @@ public class PauseMenuWidget : MenuWidget
     {
         UI_WidgetManager.Instance.TryLoadWidget("QuitToMainMenuConfirmation","QuitToMainMenuConfirmation");
     }
+
 }

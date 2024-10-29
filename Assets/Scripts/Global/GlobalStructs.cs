@@ -1,9 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class GlobalStructs : MonoBehaviour
 {
+}
+
+[System.Serializable]
+public struct SFXRequest
+{
+    public string name;
+    public AudioClip clip;
+    public AudioMixerGroup mixerGroup;
+}
+
+[System.Serializable]
+public struct Song
+{
+    public string name;
+    public AudioClip clip;
 }
 
 [System.Serializable]
