@@ -7,6 +7,7 @@ public class MainMenuMode : GameMode
     public override void Setup()
     {
         UI_WidgetManager.Instance.TryLoadWidget("TitleCard","TitleCard");
+        UI_WidgetManager.Instance.TryLoadWidget("BuildNumber","BuildNumber");
 
         base.Setup();
     }

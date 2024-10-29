@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuitConfirmationPopupWidget : Widget
+public class QuitConfirmationPopupWidget : PopupWidget
 {
     public void OnClickYes()
     {
@@ -15,6 +15,6 @@ public class QuitConfirmationPopupWidget : Widget
 
     public void OnClickNo()
     {
-        UI_WidgetManager.Instance.TryUnloadWidget("QuitConfirmation");
+        UI_WidgetManager.Instance.TryUnloadWidget("QuitGameConfirmation");
     }
 }

@@ -14,6 +14,7 @@ public class FreeRoamMode : GameMode
     {
         Vector3 pos = SaveManager.Instance.loadedSave.TryGetValue<Vector3>("PlayerPosition");
         UI_WidgetManager.Instance.TryLoadWidget("MiniMap","MiniMap");
+        UI_WidgetManager.Instance.TryLoadWidget("BuildNumber","BuildNumber");
         
         SpawnPlayerAt(pos);
 

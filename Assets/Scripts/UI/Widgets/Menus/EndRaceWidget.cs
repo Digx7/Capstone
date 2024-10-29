@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class EndRaceWidget : Widget
+public class EndRaceWidget : MenuWidget
 {
     public TextMeshProUGUI positionUI;
 
@@ -38,7 +38,7 @@ public class EndRaceWidget : Widget
 
     public void OnClickContinue()
     {
-        GameManager.Instance.SwitchToGameMode("FreeRoam");
         UI_WidgetManager.Instance.TryUnloadWidget("EndRace");
+        GameManager.Instance.SwitchToGameMode("FreeRoam");
     }
 }

@@ -37,18 +37,12 @@ public class GameMode : GenericSingleton<GameMode>
 
     public virtual void Setup()
     {
-        // SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
-        // signalReceiver.GetReaction(OnEnableControlsSignal).AddListener(EnableAllControls);
-        // signalReceiver.GetReaction(OnDisableControlsSignal).AddListener(DisableAllControls);
         
         OnSetupEnd.Invoke();
     }
 
     public virtual void TearDown()
     {
-        // SignalReceiver signalReceiver = GameObject.FindObjectOfType<SignalReceiver>();
-        // signalReceiver.GetReaction(OnEnableControlsSignal).RemoveListener(EnableAllControls);
-        // signalReceiver.GetReaction(OnDisableControlsSignal).RemoveListener(DisableAllControls);
 
         OnTearDownEnd.Invoke();
     }
@@ -87,26 +81,6 @@ public class GameMode : GenericSingleton<GameMode>
 
     protected virtual void SpawnPlayerAt(Vector3 location, Quaternion rotation)
     {
-        // // Spawns character object
-        // GameObject newCharacter = Instantiate(playerCharacterPrefab, location, rotation);
-        // GameObject newCamera = Instantiate(playerCameraPrefab, location, rotation);
-        // GameObject newController = Instantiate(playerControllerPrefab, location, rotation);
-
-        // // Setup Player
-        // // Setup the Cameras
-        // CarCamerasFacade carCamerasFacade = newCamera.GetComponent<CarCamerasFacade>();
-        // carCamerasFacade.target = newCharacter;
-        // carCamerasFacade.splitScreenMode = SplitScreenMode.OnePlayer;
-        // carCamerasFacade.playerNumber = 1;
-        // carCamerasFacade.Refresh();
-
-        // // Setup the controler
-        // newController.GetComponent<GameController>().TryToPossesCharacter(newCharacter.GetComponent<Character>());
-
-
-        // // Adds spawned character to list
-        // NamedPlayerObject namedPlayerObject = new NamedPlayerObject(characters.Count.ToString(), newCharacter, newCamera, newController);
-        // characters.Add(namedPlayerObject);
         
         GameObject newCharacter = SpawnCharacterOnlyAt(location, rotation);
         GameObject newCamera = SpawnCameraOnlyAt(location, rotation);
@@ -192,7 +166,6 @@ public class GameMode : GenericSingleton<GameMode>
     {
         foreach (NamedPlayerObject _character in characters)
         {
-            // Destroy(_character.obj);
             DestroyNamedPlayerObject(_character);
         }
 
@@ -202,7 +175,6 @@ public class GameMode : GenericSingleton<GameMode>
     protected virtual void DespawnCharacter(string name)
     {
         NamedPlayerObject characterToDestroy = Utils.FindNamedPlayerObjectAndRemove(name, ref characters);
-        // Destroy(characterToDestroy.obj);
         DestroyNamedPlayerObject(characterToDestroy);
     }
 

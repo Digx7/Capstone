@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class QuitToMainMenuConfirmationPopupWidget : Widget
+public class QuitToMainMenuConfirmationPopupWidget : PopupWidget
 {
     public void OnClickYes()
     {

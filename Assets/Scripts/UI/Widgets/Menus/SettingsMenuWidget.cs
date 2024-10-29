@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingsMenuWidget : Widget
+public class SettingsMenuWidget : MenuWidget
 {
     [SerializeField] private GameObject gameplayPage;
     [SerializeField] private GameObject graphicsPage;
@@ -42,7 +42,7 @@ public class SettingsMenuWidget : Widget
 
     public void OnClickBack()
     {
-        UI_WidgetManager.Instance.TryLoadWidget("MainMenu","MainMenu");
         UI_WidgetManager.Instance.TryUnloadWidget("SettingsMenu");
+        UI_WidgetManager.Instance.TryLoadWidget("MainMenu","MainMenu");
     }
 }

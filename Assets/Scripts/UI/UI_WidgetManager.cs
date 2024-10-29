@@ -27,18 +27,26 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
     {
         if(!AllWidgets_Dict.ContainsKey(keyToLoadFrom))
         {
-            Debug.LogError("UI_WidgetManager tried to load from a key (" + keyToLoadFrom + ") that does not exist.  Double check the spelling of all keys involved");
+            Debug.LogWarning("UI_WidgetManager tried to load from a key (" + keyToLoadFrom + ") that does not exist.  Double check the spelling of all keys involved");
             return false;
         }
 
         GameObject prefab = AllWidgets_Dict[keyToLoadFrom];
 
         GameObject loaded = Instantiate(prefab);
+
+        if(loaded == null)
+        {
+            Debug.LogWarning("UI_WidgetManager loaded a widget from the key (" + keyToLoadFrom + ") but the loaded prefab was null.  Double check that there is a prefab to load.  Destorying this prefab");
+            Destroy(loaded);
+            return false;
+        }
+
         loaded.GetComponent<Widget>().SetID(keyToLoadTo);
 
         if(!allLoadedWidgets_Dict.TryAdd(keyToLoadTo, loaded))
         {
-            Debug.LogError("UI_WidgetManager tried to load a new widget with a key (" + keyToLoadTo + ") that already exists.  Please use a different key instead.");
+            Debug.LogWarning("UI_WidgetManager tried to load a new widget with a key (" + keyToLoadTo + ") that already exists.  Please use a different key instead.");
             Destroy(loaded);
             return false;
         }
@@ -56,7 +64,7 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
     {
         if(!AllWidgets_Dict.ContainsKey(keyToLoadFrom))
         {
-            Debug.LogError("UI_WidgetManager tried to load from a key (" + keyToLoadFrom + ") that does not exist.  Double check the spelling of all keys involved");
+            Debug.LogWarning("UI_WidgetManager tried to load from a key (" + keyToLoadFrom + ") that does not exist.  Double check the spelling of all keys involved");
             return false;
         }
 
@@ -67,7 +75,7 @@ public class UI_WidgetManager : GenericSingleton<UI_WidgetManager>
 
         if(!allLoadedWidgets_Dict.TryAdd(keyToLoadTo, loaded))
         {
-            Debug.LogError("UI_WidgetManager tried to load a new widget with a key (" + keyToLoadTo + ") that already exists.  Please use a different key instead.");
+            Debug.LogWarning("UI_WidgetManager tried to load a new widget with a key (" + keyToLoadTo + ") that already exists.  Please use a different key instead.");
             Destroy(loaded);
             return false;
         }

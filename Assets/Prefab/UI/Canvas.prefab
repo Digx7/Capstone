@@ -146,3 +146,5 @@ MonoBehaviour:
   - key: QuitToMainMenuConfirmation
     prefab: {fileID: 2236114633380741473, guid: b1f9bd420fbd4e9499a61eacdfdc6cbe,
       type: 3}
+  - key: BuildNumber
+    prefab: {fileID: 763208434164623798, guid: aac1a78668a82bb499fffe1e12d9871f, type: 3}
