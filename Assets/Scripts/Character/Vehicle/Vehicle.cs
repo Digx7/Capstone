@@ -9,6 +9,8 @@ public class Vehicle : MonoBehaviour
     
     // Events
     public UnityEvent OnIdle;
+
+    public UnityEvent<float> OnDrive;
     public UnityEvent OnBoost;
     public UnityEvent<int> OnChargeBoostLevelChanged;
     public UnityEvent<bool> OnStartChargeBoost;
@@ -145,6 +147,8 @@ public class Vehicle : MonoBehaviour
         {
             isIdle = false;
         }
+
+        OnDrive.Invoke(speed);
 
         // Debug.Log("Speed: " + speed + " IdleTimerIsGoing: " + idleTimerIsGoing + " IsIdle: " + isIdle);
     }
